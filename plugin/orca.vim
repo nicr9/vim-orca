@@ -27,6 +27,25 @@ function! s:docker_run(args) abort
     endif
 endfunction
 
+function! s:read_to_window(cmd) abort
+    " Create new buffer
+    bot new
+
+    " Write info to file
+    if g:orca_debug
+        " if in debug mode, just read contents of current folder
+        read ! ls -alF ~/
+    else
+        read ! a:cmd
+    endif
+
+    " Delete empty line (0)
+    0,1del
+
+    " Configure the buffer
+    setlocal buftype=nowrite nomodified readonly nomodifiable
+endfunction
+
 " Section: Docker
 
 function! s:Docker(...) abort
@@ -52,3 +71,12 @@ function! s:Shell(image_tag) abort
 endfunction
 
 command! -nargs=1 Dshell call s:Shell(<f-args>)
+
+" Section: Dstatus
+
+function! s:Status() abort
+    let cmd = ["ps"]
+    exec s:read_to_window(cmd)
+endfunction
+
+command! Dstatus call s:Status()
