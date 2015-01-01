@@ -77,9 +77,16 @@ command! -nargs=1 Dshell call s:Shell(<f-args>)
 
 " Section: Dstatus
 
+function! s:setup_dstatus()
+    if s:dstatus_bufnr && bufnr("%") == s:dstatus_bufnr
+        resize 10
+    endif
+endfunction
+
 function! s:Status() abort
     let cmd = ["ps"]
     let s:dstatus_bufnr = s:read_to_window(cmd)
+    exec s:setup_dstatus()
 endfunction
 
 command! Dstatus call s:Status()
