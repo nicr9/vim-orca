@@ -80,6 +80,7 @@ command! -nargs=1 Dshell call s:Shell(<f-args>)
 function! s:setup_dstatus()
     if s:dstatus_bufnr && bufnr("%") == s:dstatus_bufnr
         resize 10
+        set filetype=dstatus
     endif
 endfunction
 
