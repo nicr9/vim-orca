@@ -44,6 +44,9 @@ function! s:read_to_window(cmd) abort
 
     " Configure the buffer
     setlocal buftype=nowrite nomodified readonly nomodifiable
+
+    " Return buffer number
+    return bufnr("%")
 endfunction
 
 " Section: Docker
@@ -76,7 +79,7 @@ command! -nargs=1 Dshell call s:Shell(<f-args>)
 
 function! s:Status() abort
     let cmd = ["ps"]
-    exec s:read_to_window(cmd)
+    let s:dstatus_bufnr = s:read_to_window(cmd)
 endfunction
 
 command! Dstatus call s:Status()
