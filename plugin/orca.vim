@@ -36,7 +36,7 @@ function! s:read_to_window(cmd) abort
         " if in debug mode, just read contents of current folder
         read ! ls -alF ~/
     else
-        read ! a:cmd
+        exec "read !" . join(a:cmd, ' ')
     endif
 
     " Delete empty line (0)
@@ -85,7 +85,7 @@ function! s:setup_dstatus()
 endfunction
 
 function! s:Status() abort
-    let cmd = ["ps"]
+    let cmd = ["sudo", "docker", "ps"]
     let s:dstatus_bufnr = s:read_to_window(cmd)
     exec s:setup_dstatus()
 endfunction
