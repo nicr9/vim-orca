@@ -4,6 +4,10 @@ if !exists("g:orca_debug")
     let g:orca_debug = 1
 endif
 
+if !exists("g:orca_verbose")
+    let g:orca_verbose = 0
+endif
+
 if !exists("g:orca_sudo")
     let g:orca_sudo = 1
 endif
@@ -15,6 +19,27 @@ function! s:docker_run(args) abort
         let cmd = ["sudo", "docker"]
     else
         let cmd = ["docker"]
+    endif
+
+    let cmd += a:args
+    let full_cmd = join(cmd, ' ')
+
+    if g:orca_debug
+        echom full_cmd
+    else
+        exec '!' . full_cmd
+    endif
+endfunction
+
+function! s:fig_run(args) abort
+    if g:orca_sudo
+        let cmd = ["sudo", "fig"]
+    else
+        let cmd = ["fig"]
+    endif
+
+    if g:orca_verbose
+        call add(cmd, '--verbose')
     endif
 
     let cmd += a:args
@@ -91,3 +116,12 @@ function! s:Status() abort
 endfunction
 
 command! Dstatus call s:Status()
+
+" Section: Fup
+
+function! s:Fup() abort
+    let cmd = ["up", "-d"]
+    exec s:fig_run(cmd)
+endfunction
+
+command! Fup call s:Fup()
