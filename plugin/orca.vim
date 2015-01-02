@@ -102,10 +102,20 @@ command! -nargs=1 Dshell call s:Shell(<f-args>)
 
 " Section: Dstatus
 
+function! Dexec() abort
+    let con_id = matchstr(getline("."), '^[a-fA-F0-9]*')
+    if con_id != 'C'
+        let cmd = ["exec", "-it", con_id, "/bin/bash"]
+        call s:docker_run(cmd)
+    endif
+endfunction
+
 function! s:setup_dstatus()
     if s:dstatus_bufnr && bufnr("%") == s:dstatus_bufnr
         resize 10
         set filetype=dstatus
+        nmap <buffer> s :call Dexec()<CR>
+        echo
     endif
 endfunction
 
