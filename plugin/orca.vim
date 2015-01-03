@@ -12,7 +12,12 @@ if !exists("g:orca_sudo")
     let g:orca_sudo = 1
 endif
 
+" Section: useful constants
+
 let g:orca_path = expand('<sfile>:p:h:h')
+
+let s:multi_ws_re = '\s\s\+'
+let s:con_id_re = '^[a-fA-F0-9]*'
 
 " Section: utils
 
@@ -75,6 +80,21 @@ function! s:preview(cmd)
     execute "normal \<C-W>p"
 endfunction
 
+function! s:line_columns(columns)
+    let matches = split(getline("."), s:multi_ws_re)
+    let results = []
+
+    for indx in a:columns
+        call add(results, matches[indx])
+    endfor
+
+    return results
+endfunction
+
+function! s:verify_con_id(con_id)
+    return matchstr(a:con_id, s:con_id_re) ? 1 : 0
+endfunction
+
 " Section: Docker
 
 function! s:Docker(...) abort
@@ -103,10 +123,9 @@ command! -nargs=1 Dshell call s:Shell(<f-args>)
 
 " Section: Dstatus
 
-function! s:Dexec() abort
-    let con_id = matchstr(getline("."), '^[a-fA-F0-9]*')
-    if con_id != 'C'
-        let cmd = ["exec", "-it", con_id, "/bin/bash"]
+function! s:Dexec(con_id) abort
+    if s:verify_con_id(a:con_id)
+        let cmd = ["exec", "-it", a:con_id, "/bin/bash"]
         call s:run_cmd(s:docker_cmd(cmd))
     endif
 endfunction
@@ -115,7 +134,7 @@ function! s:setup_dstatus()
     setlocal buftype=nowrite nomodified readonly nomodifiable
     setlocal bufhidden=delete
     set filetype=dstatus
-    nmap <buffer> s :call <SID>Dexec()<CR>
+    nmap <buffer> s :call <SID>Dexec(<SID>line_columns([0])[0])<CR>
 endfunction
 
 function! s:Status() abort
