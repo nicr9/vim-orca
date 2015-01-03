@@ -12,6 +12,8 @@ if !exists("g:orca_sudo")
     let g:orca_sudo = 1
 endif
 
+let g:orca_path = expand('<sfile>:p:h:h')
+
 " Section: utils
 
 function! s:docker_cmd(args) abort
@@ -50,13 +52,20 @@ function! s:run_cmd(cmd_args) abort
     endif
 endfunction
 
-function! s:preview(cmd) abort
+function! s:debug_file(cmd) abort
+    let filename = g:orca_sudo ? a:cmd[2:] : a:cmd[1:]
+    let full_name = g:orca_path . "/debug/" .join(filename, '.')
+    return full_name
+endfunction
+
+function! s:preview(cmd)
     let tmp = tempname()
 
     " Write info to file
     if g:orca_debug
-        " if in debug mode, just read contents of home folder
-        execute ":silent ! ls -alF ~/ > " . tmp . " 2>&1"
+        " if in debug mode, just copy a debug file
+        let src = s:debug_file(a:cmd)
+        execute ":silent ! cp " . src . " " . tmp
     else
         execute ":silent ! " . join(a:cmd, ' ') . " > " . tmp . " 2>&1"
     endif
