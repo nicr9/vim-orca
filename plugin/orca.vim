@@ -113,6 +113,7 @@ endfunction
 
 function! s:setup_dstatus()
     setlocal buftype=nowrite nomodified readonly nomodifiable
+    setlocal bufhidden=delete
     set filetype=dstatus
     nmap <buffer> s :call Dexec()<CR>
 endfunction
