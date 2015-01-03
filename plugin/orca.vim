@@ -50,26 +50,20 @@ function! s:run_cmd(cmd_args) abort
     endif
 endfunction
 
-function! s:read_to_window(cmd) abort
-    " Create new buffer
-    bot new
+function! s:preview(cmd) abort
+    let tmp = tempname()
 
     " Write info to file
     if g:orca_debug
-        " if in debug mode, just read contents of current folder
-        read ! ls -alF ~/
+        " if in debug mode, just read contents of home folder
+        execute ":silent ! ls -alF ~/ > " . tmp . " 2>&1"
     else
-        exec "read !" . join(a:cmd, ' ')
+        execute ":silent ! " . join(a:cmd, ' ') . " > " . tmp . " 2>&1"
     endif
 
-    " Delete empty line (0)
-    0,1del
-
-    " Configure the buffer
-    setlocal buftype=nowrite nomodified readonly nomodifiable
-
-    " Return buffer number
-    return bufnr("%")
+    " Open preview
+    execute ":pedit! " . tmp
+    execute "normal \<C-W>p"
 endfunction
 
 " Section: Docker
@@ -109,16 +103,13 @@ function! Dexec() abort
 endfunction
 
 function! s:setup_dstatus()
-    if s:dstatus_bufnr && bufnr("%") == s:dstatus_bufnr
-        resize 10
-        set filetype=dstatus
-        nmap <buffer> s :call Dexec()<CR>
-        echo
-    endif
+    setlocal buftype=nowrite nomodified readonly nomodifiable
+    set filetype=dstatus
+    nmap <buffer> s :call Dexec()<CR>
 endfunction
 
 function! s:Status() abort
-    let s:dstatus_bufnr = s:read_to_window(s:docker_cmd(["ps"]))
+    exec s:preview(s:docker_cmd(["ps"]))
     exec s:setup_dstatus()
 endfunction
 
