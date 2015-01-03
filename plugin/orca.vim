@@ -103,7 +103,7 @@ command! -nargs=1 Dshell call s:Shell(<f-args>)
 
 " Section: Dstatus
 
-function! Dexec() abort
+function! s:Dexec() abort
     let con_id = matchstr(getline("."), '^[a-fA-F0-9]*')
     if con_id != 'C'
         let cmd = ["exec", "-it", con_id, "/bin/bash"]
@@ -115,7 +115,7 @@ function! s:setup_dstatus()
     setlocal buftype=nowrite nomodified readonly nomodifiable
     setlocal bufhidden=delete
     set filetype=dstatus
-    nmap <buffer> s :call Dexec()<CR>
+    nmap <buffer> s :call <SID>Dexec()<CR>
 endfunction
 
 function! s:Status() abort
