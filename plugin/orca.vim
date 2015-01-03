@@ -121,7 +121,7 @@ endfunction
 
 command! -nargs=1 Dshell call s:Shell(<f-args>)
 
-" Section: Dstatus
+" Section: Dexec
 
 function! s:Dexec(con_id) abort
     if s:verify_con_id(a:con_id)
@@ -129,6 +129,10 @@ function! s:Dexec(con_id) abort
         call s:run_cmd(s:docker_cmd(cmd))
     endif
 endfunction
+
+command! -nargs=1 Dexec call s:Dexec(<f-args>)
+
+" Section: Dstatus
 
 function! s:setup_dstatus()
     setlocal buftype=nowrite nomodified readonly nomodifiable
