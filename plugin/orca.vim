@@ -139,6 +139,8 @@ function! s:setup_dstatus()
     setlocal bufhidden=delete
     set filetype=dstatus
     nmap <buffer> s :call <SID>Dexec(<SID>line_columns([0])[0])<CR>
+    nmap <buffer> l :call <SID>Docker("logs -f " . <SID>line_columns([0])[0])<CR>
+    nmap <buffer> q :pclose!<CR>
 endfunction
 
 function! s:Status() abort
