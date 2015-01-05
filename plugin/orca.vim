@@ -12,6 +12,10 @@ if !exists("g:orca_sudo")
     let g:orca_sudo = 1
 endif
 
+if !exists("g:orca_default_repo")
+    let g:orca_default_repo = ""
+endif
+
 " Section: useful constants
 
 let g:orca_path = expand('<sfile>:p:h:h')
@@ -121,7 +125,7 @@ endfunction
 
 command! -nargs=1 Dshell call s:DockerShell(<f-args>)
 
-" Section: DockerExec
+" Section: Dexec
 
 function! s:DockerExec(con_id) abort
     if s:verify_con_id(a:con_id)
@@ -131,6 +135,18 @@ function! s:DockerExec(con_id) abort
 endfunction
 
 command! -nargs=1 Dexec call s:DockerExec(<f-args>)
+
+" Section: Dpull
+
+function! s:DockerPull(image) abort
+    let image = a:image
+    if strlen(g:orca_default_repo) != 0
+        let image = g:orca_default_repo . image
+    endif
+    call s:run_cmd(s:docker_cmd(["pull", image]))
+endfunction
+
+command! -nargs=1 Dpull call s:DockerPull(<f-args>)
 
 " Section: Dstatus
 
