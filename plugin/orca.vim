@@ -154,6 +154,7 @@ command! -nargs=1 Dpull call s:DockerPull(<f-args>)
 function! s:setup_dstatus()
     setlocal buftype=nowrite nomodified readonly nomodifiable
     setlocal bufhidden=delete
+    setlocal nowrap
     set filetype=dstatus
     nmap <buffer> s :call <SID>DockerExec(<SID>line_columns([0])[0])<CR>
     nmap <buffer> l :call <SID>Docker("logs -f " . <SID>line_columns([0])[0])<CR>
