@@ -96,7 +96,8 @@ function! s:line_columns(columns)
 endfunction
 
 function! s:verify_con_id(con_id)
-    return matchstr(a:con_id, s:con_id_re) ? 1 : 0
+    let m = matchstr(a:con_id, s:con_id_re)
+    return strlen(m) == 12 ? 1 : 0
 endfunction
 
 " Section: Docker
