@@ -150,6 +150,22 @@ endfunction
 
 command! Dstatus call s:Status()
 
+" Section: Fig
+
+function! s:Fig(...) abort
+    exec s:run_cmd(s:fig_cmd(a:000))
+endfunction
+
+command! -nargs=+ Fig call s:Fig(<f-args>)
+
+" Section: Fbuild
+
+function! s:Fbuild() abort
+    exec s:run_cmd(s:fig_cmd(["build"]))
+endfunction
+
+command! Fbuild call s:Fbuild()
+
 " Section: Fup
 
 function! s:Fup() abort
