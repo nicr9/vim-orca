@@ -105,32 +105,32 @@ command! -nargs=+ Docker call s:Docker(<f-args>)
 
 " Section: Dbuild
 
-function! s:Build(image_tag) abort
+function! s:DockerBuild(image_tag) abort
     let cmd = ["build", "-t", a:image_tag, '.']
     exec s:run_cmd(s:docker_cmd(cmd))
 endfunction
 
-command! -nargs=1 Dbuild call s:Build(<f-args>)
+command! -nargs=1 Dbuild call s:DockerBuild(<f-args>)
 
 " Section: Dshell
 
-function! s:Shell(image_tag) abort
+function! s:DockerShell(image_tag) abort
     let cmd = ["run", "-it", a:image_tag, '/bin/bash']
     exec s:run_cmd(s:docker_cmd(cmd))
 endfunction
 
-command! -nargs=1 Dshell call s:Shell(<f-args>)
+command! -nargs=1 Dshell call s:DockerShell(<f-args>)
 
-" Section: Dexec
+" Section: DockerExec
 
-function! s:Dexec(con_id) abort
+function! s:DockerExec(con_id) abort
     if s:verify_con_id(a:con_id)
         let cmd = ["exec", "-it", a:con_id, "/bin/bash"]
         call s:run_cmd(s:docker_cmd(cmd))
     endif
 endfunction
 
-command! -nargs=1 Dexec call s:Dexec(<f-args>)
+command! -nargs=1 Dexec call s:DockerExec(<f-args>)
 
 " Section: Dstatus
 
@@ -138,17 +138,17 @@ function! s:setup_dstatus()
     setlocal buftype=nowrite nomodified readonly nomodifiable
     setlocal bufhidden=delete
     set filetype=dstatus
-    nmap <buffer> s :call <SID>Dexec(<SID>line_columns([0])[0])<CR>
+    nmap <buffer> s :call <SID>DockerExec(<SID>line_columns([0])[0])<CR>
     nmap <buffer> l :call <SID>Docker("logs -f " . <SID>line_columns([0])[0])<CR>
     nmap <buffer> q :pclose!<CR>
 endfunction
 
-function! s:Status() abort
+function! s:DockerStatus() abort
     exec s:preview(s:docker_cmd(["ps"]))
     exec s:setup_dstatus()
 endfunction
 
-command! Dstatus call s:Status()
+command! Dstatus call s:DockerStatus()
 
 " Section: Fig
 
@@ -160,16 +160,16 @@ command! -nargs=+ Fig call s:Fig(<f-args>)
 
 " Section: Fbuild
 
-function! s:Fbuild() abort
+function! s:FigBuild() abort
     exec s:run_cmd(s:fig_cmd(["build"]))
 endfunction
 
-command! Fbuild call s:Fbuild()
+command! Fbuild call s:FigBuild()
 
 " Section: Fup
 
-function! s:Fup() abort
+function! s:FigUp() abort
     exec s:run_cmd(s:fig_cmd(["up", "-d"]))
 endfunction
 
-command! Fup call s:Fup()
+command! Fup call s:FigUp()
