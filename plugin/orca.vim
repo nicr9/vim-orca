@@ -68,6 +68,7 @@ function! s:debug_file(cmd) abort
 endfunction
 
 function! s:preview(cmd)
+    let g:orca_last_preview = a:cmd
     let tmp = tempname()
 
     " Write info to file
@@ -83,6 +84,10 @@ function! s:preview(cmd)
     execute "pclose!"
     execute "pedit! " . tmp
     execute "normal \<C-W>p"
+endfunction
+
+function! s:preview_refresh()
+    execute s:preview(g:orca_last_preview)
 endfunction
 
 function! s:line_columns(columns)
