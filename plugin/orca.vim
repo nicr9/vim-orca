@@ -80,7 +80,8 @@ function! s:preview(cmd)
     endif
 
     " Open preview
-    execute ":pedit! " . tmp
+    execute "pclose!"
+    execute "pedit! " . tmp
     execute "normal \<C-W>p"
 endfunction
 
