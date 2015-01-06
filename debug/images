@@ -1,0 +1,10 @@
+REPOSITORY                TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+<none>                    <none>              77af4d6b9913        19 hours ago        1.089 GB
+committ                   latest              b6fa739cedf5        19 hours ago        1.089 GB
+<none>                    <none>              78a85c484f71        19 hours ago        1.089 GB
+docker                    latest              30557a29d5ab        20 hours ago        1.089 GB
+<none>                    <none>              5ed6274db6ce        24 hours ago        1.089 GB
+postgres                  9                   746b819f315e        4 days ago          213.4 MB
+postgres                  9.3                 746b819f315e        4 days ago          213.4 MB
+postgres                  9.3.5               746b819f315e        4 days ago          213.4 MB
+postgres                  latest              746b819f315e        4 days ago          213.4 MB
