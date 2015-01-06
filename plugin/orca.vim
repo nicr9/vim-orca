@@ -157,6 +157,14 @@ command! -nargs=1 Dpull call s:DockerPull(<f-args>)
 
 " Section: Dstatus
 
+function! s:help_dstatus()
+    execute ":pclose!"
+    execute ":pedit! " . g:orca_path . "/res/dstatus.help"
+    execute "normal \<C-W>p"
+    setlocal filetype=md
+    nmap <buffer> <silent> ? :call <SID>preview_refresh()<CR>:call <SID>setup_dstatus()<CR>
+endfunction
+
 function! s:setup_dstatus()
     setlocal buftype=nowrite nomodified readonly nomodifiable
     setlocal bufhidden=delete
@@ -165,6 +173,7 @@ function! s:setup_dstatus()
     nmap <buffer> s :call <SID>DockerExec(<SID>line_columns([0])[0])<CR>
     nmap <buffer> l :call <SID>Docker("logs -f " . <SID>line_columns([0])[0])<CR>
     nmap <buffer> q :pclose!<CR>
+    nmap <buffer> ? :call <SID>help_dstatus()<CR>
 endfunction
 
 function! s:DockerStatus() abort

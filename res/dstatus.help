@@ -1,0 +1,8 @@
+# Dstatus
+
+## Keymaps
+
+`s` - Drop into a shell on this container.
+`l` - `tail -f` the logs on this container.
+`?` - Open up this help dialog.
+`q` - Quit. Close this preview dialog.
