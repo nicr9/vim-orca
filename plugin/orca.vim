@@ -168,6 +168,23 @@ endfunction
 
 command! Dstatus call s:DockerStatus()
 
+" Section: Dimages
+
+function! s:setup_dimages()
+    setlocal buftype=nowrite nomodified readonly nomodifiable
+    setlocal bufhidden=delete
+    setlocal nowrap
+    set filetype=dstatus
+    nmap <buffer> q :pclose!<CR>
+endfunction
+
+function! s:DockerImages() abort
+    exec s:preview(s:docker_cmd(["images"]))
+    exec s:setup_dimages()
+endfunction
+
+command! Dimages call s:DockerImages()
+
 " Section: Fig
 
 function! s:Fig(...) abort
