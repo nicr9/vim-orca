@@ -185,12 +185,21 @@ command! Dstatus call s:DockerStatus()
 
 " Section: Dimages
 
+function! s:help_dimages()
+    execute ":pclose!"
+    execute ":pedit! " . g:orca_path . "/res/dimages.help"
+    execute "normal \<C-W>p"
+    setlocal filetype=md
+    nmap <buffer> <silent> ? :call <SID>preview_refresh()<CR>:call <SID>setup_dimages()<CR>
+endfunction
+
 function! s:setup_dimages()
     setlocal buftype=nowrite nomodified readonly nomodifiable
     setlocal bufhidden=delete
     setlocal nowrap
     set filetype=dstatus
     nmap <buffer> q :pclose!<CR>
+    nmap <buffer> ? :call <SID>help_dimages()<CR>
 endfunction
 
 function! s:DockerImages() abort
