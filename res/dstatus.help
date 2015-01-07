@@ -4,5 +4,5 @@
 
 `s` - Drop into a shell on this container.
 `l` - `tail -f` the logs on this container.
-`?` - Open up this help dialog.
+`?` - Toggle the help dialog.
 `q` - Quit. Close this preview dialog.
