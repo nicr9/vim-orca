@@ -155,6 +155,24 @@ endfunction
 
 command! -nargs=1 Dpull call s:DockerPull(<f-args>)
 
+" Section: Dcreate
+
+function! s:DockerCreate(details)
+    let details = filter(a:details, "v:val != '<none>'")
+    let name = join(a:details[:-2], '_')
+    let image = a:details[-1]
+
+    if strlen(name) > 0
+        let cmd = ['create', '--name ' . name, image]
+    else
+        let cmd = ['create', image]
+    endif
+
+    call s:run_cmd(s:docker_cmd(cmd))
+endfunction
+
+command! -nargs=1 Dcreate call s:DockerCreate([<f-args>])
+
 " Section: Dstatus
 
 function! s:help_dstatus()
@@ -200,6 +218,7 @@ function! s:setup_dimages()
     setlocal bufhidden=delete
     setlocal nowrap
     set filetype=dstatus
+    nmap <buffer> c :call <SID>DockerCreate(<SID>line_columns([0,1,2]))<CR>
     nmap <buffer> ? :call <SID>help_dimages()<CR>
     nmap <buffer> q :pclose!<CR>
 endfunction
