@@ -155,6 +155,16 @@ endfunction
 
 command! -nargs=1 Dpull call s:DockerPull(<f-args>)
 
+" Section: Dwrite
+
+function! s:DockerWrite(img_name) abort
+    let cmd = s:docker_cmd(["ps", "-ql"])
+    let con_id = system(join(cmd, ' '))[:-2]
+    call s:run_cmd(s:docker_cmd(["commit", con_id, a:img_name]))
+endfunction
+
+command! -nargs=1 Dwrite call s:DockerWrite(<f-args>)
+
 " Section: Dstatus
 
 function! s:help_dstatus()
