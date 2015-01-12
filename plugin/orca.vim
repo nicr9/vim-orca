@@ -84,6 +84,7 @@ function! s:preview(cmd)
     execute "pclose!"
     execute "pedit! " . tmp
     execute "normal \<C-W>p"
+    execute "redraw!"
 endfunction
 
 function! s:preview_refresh()
