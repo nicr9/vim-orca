@@ -117,7 +117,7 @@ command! -nargs=+ Docker call s:Docker(<f-args>)
 " Section: Dbuild
 
 function! s:DockerBuild(image_tag) abort
-    let cmd = ["build", "-t", a:image_tag, '.']
+    let cmd = ["build", "--rm=false", "-t", a:image_tag, '.']
     exec s:run_cmd(s:docker_cmd(cmd))
 endfunction
 
