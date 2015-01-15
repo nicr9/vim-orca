@@ -84,6 +84,7 @@ function! s:preview(cmd)
     execute "pclose!"
     execute "pedit! " . tmp
     execute "normal \<C-W>p"
+    execute "redraw!"
 endfunction
 
 function! s:preview_refresh()
@@ -117,7 +118,7 @@ command! -nargs=+ Docker call s:Docker(<f-args>)
 " Section: Dbuild
 
 function! s:DockerBuild(image_tag) abort
-    let cmd = ["build", "-t", a:image_tag, '.']
+    let cmd = ["build", "--rm=false", "-t", a:image_tag, '.']
     exec s:run_cmd(s:docker_cmd(cmd))
 endfunction
 
@@ -173,6 +174,16 @@ endfunction
 
 command! -nargs=1 Dcreate call s:DockerCreate([<f-args>])
 
+" Section: Dwrite
+
+function! s:DockerWrite(img_name) abort
+    let cmd = s:docker_cmd(["ps", "-ql"])
+    let con_id = system(join(cmd, ' '))[:-2]
+    call s:run_cmd(s:docker_cmd(["commit", con_id, a:img_name]))
+endfunction
+
+command! -nargs=1 Dwrite call s:DockerWrite(<f-args>)
+
 " Section: Dstatus
 
 function! s:help_dstatus()
@@ -181,7 +192,7 @@ function! s:help_dstatus()
     execute "normal \<C-W>p"
     setlocal filetype=md
     nmap <buffer> <silent> ? :call <SID>preview_refresh()<CR>:call <SID>setup_dstatus()<CR>
-    nmap <buffer> q :pclose!<CR>
+    nmap <buffer> <silent> q :pclose!<CR>
 endfunction
 
 function! s:setup_dstatus()
@@ -191,8 +202,8 @@ function! s:setup_dstatus()
     set filetype=dstatus
     nmap <buffer> s :call <SID>DockerExec(<SID>line_columns([0])[0])<CR>
     nmap <buffer> l :call <SID>Docker("logs -f " . <SID>line_columns([0])[0])<CR>
-    nmap <buffer> ? :call <SID>help_dstatus()<CR>
-    nmap <buffer> q :pclose!<CR>
+    nmap <buffer> <silent> ? :call <SID>help_dstatus()<CR>
+    nmap <buffer> <silent> q :pclose!<CR>
 endfunction
 
 function! s:DockerStatus() abort
@@ -210,7 +221,7 @@ function! s:help_dimages()
     execute "normal \<C-W>p"
     setlocal filetype=md
     nmap <buffer> <silent> ? :call <SID>preview_refresh()<CR>:call <SID>setup_dimages()<CR>
-    nmap <buffer> q :pclose!<CR>
+    nmap <buffer> <silent> q :pclose!<CR>
 endfunction
 
 function! s:setup_dimages()
@@ -219,8 +230,8 @@ function! s:setup_dimages()
     setlocal nowrap
     set filetype=dstatus
     nmap <buffer> c :call <SID>DockerCreate(<SID>line_columns([0,1,2]))<CR>
-    nmap <buffer> ? :call <SID>help_dimages()<CR>
-    nmap <buffer> q :pclose!<CR>
+    nmap <buffer> <silent> ? :call <SID>help_dimages()<CR>
+    nmap <buffer> <silent> q :pclose!<CR>
 endfunction
 
 function! s:DockerImages() abort
