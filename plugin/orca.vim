@@ -18,6 +18,7 @@ endif
 
 " Section: useful constants
 
+let g:orca_version = "v0.1"
 let g:orca_path = expand('<sfile>:p:h:h')
 
 let s:multi_ws_re = '\s\s\+'
