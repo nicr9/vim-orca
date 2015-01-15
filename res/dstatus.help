@@ -2,7 +2,9 @@
 
 ## Keymaps
 
-`s` - Drop into a shell on this container.
 `l` - `tail -f` the logs on this container.
+`r` - Refresh the :Dstatus preview.
+`s` - Drop into a shell on this container.
+
 `?` - Toggle the help dialog.
 `q` - Quit. Close this preview dialog.

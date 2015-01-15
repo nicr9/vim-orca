@@ -200,8 +200,9 @@ function! s:setup_dstatus()
     setlocal bufhidden=delete
     setlocal nowrap
     set filetype=dstatus
-    nmap <buffer> s :call <SID>DockerExec(<SID>line_columns([0])[0])<CR>
     nmap <buffer> l :call <SID>Docker("logs -f " . <SID>line_columns([0])[0])<CR>
+    nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dstatus()<CR>
+    nmap <buffer> s :call <SID>DockerExec(<SID>line_columns([0])[0])<CR>
     nmap <buffer> <silent> ? :call <SID>help_dstatus()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
 endfunction
@@ -230,6 +231,8 @@ function! s:setup_dimages()
     setlocal nowrap
     set filetype=dstatus
     nmap <buffer> c :call <SID>DockerCreate(<SID>line_columns([0,1,2]))<CR>
+    nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dimages()<CR>
+    nmap <buffer> s :call <SID>DockerShell(<SID>line_columns([2])[0])<CR>
     nmap <buffer> <silent> ? :call <SID>help_dimages()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
 endfunction

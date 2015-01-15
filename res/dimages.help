@@ -2,5 +2,9 @@
 
 ## Keymaps
 
+`c` - Create a container from this image.
+`r` - Refresh the :Dimages preview.
+`s` - Open a bash shell on a freshly created container from this image.
+
 `?` - Toggle the help dialog.
 `q` - Quit. Close this preview dialog.
