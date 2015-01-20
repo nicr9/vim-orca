@@ -196,6 +196,8 @@ function! s:help_dstatus()
     execute ":pclose!"
     execute ":pedit! " . g:orca_path . "/res/dstatus.help"
     execute "normal \<C-W>p"
+    setlocal buftype=nowrite nomodified readonly nomodifiable
+    setlocal bufhidden=delete
     setlocal filetype=md
     nmap <buffer> <silent> ? :call <SID>preview_refresh()<CR>:call <SID>setup_dstatus()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
@@ -227,6 +229,8 @@ function! s:help_dimages()
     execute ":pclose!"
     execute ":pedit! " . g:orca_path . "/res/dimages.help"
     execute "normal \<C-W>p"
+    setlocal buftype=nowrite nomodified readonly nomodifiable
+    setlocal bufhidden=delete
     setlocal filetype=md
     nmap <buffer> <silent> ? :call <SID>preview_refresh()<CR>:call <SID>setup_dimages()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
