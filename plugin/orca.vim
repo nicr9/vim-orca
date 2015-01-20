@@ -90,6 +90,10 @@ endfunction
 
 function! s:preview_refresh()
     execute s:preview(g:orca_last_preview)
+    if exists('g:orca_preview_cursor')
+        call setpos(".", g:orca_preview_cursor)
+        unlet g:orca_preview_cursor
+    endif
 endfunction
 
 function! s:line_columns(columns)
@@ -188,6 +192,7 @@ command! -nargs=1 Dwrite call s:DockerWrite(<f-args>)
 " Section: Dstatus
 
 function! s:help_dstatus()
+    let g:orca_preview_cursor = getpos(".")
     execute ":pclose!"
     execute ":pedit! " . g:orca_path . "/res/dstatus.help"
     execute "normal \<C-W>p"
@@ -218,6 +223,7 @@ command! Dstatus call s:DockerStatus()
 " Section: Dimages
 
 function! s:help_dimages()
+    let g:orca_preview_cursor = getpos(".")
     execute ":pclose!"
     execute ":pedit! " . g:orca_path . "/res/dimages.help"
     execute "normal \<C-W>p"
