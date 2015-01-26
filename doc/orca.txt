@@ -1,0 +1,130 @@
+*orca.text* Docker wrapper for vim.
+
+                    ##        .           ~
+              ## ## ##       ==           ~
+           ## ## ## ##      ===           ~
+       /""""""""""""""""\___/ ===         ~
+  ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~  ~
+       \     #o#          __/             ~
+         \#####    ### __/                ~
+          \#####___#__/                   ~
+
+          __   _  __  __                  ~
+         /  \ |  /   /  \                 ~
+         \__/ |  \__ \__/|                ~
+
+====================================================================
+CONTENTS                                              *OrcaContents*
+
+    1. Usage ................ |OrcaUsage|
+    2. Docker Commands ...... |OrcaDocker|
+    3. Fig Commands ......... |OrcaFig|
+    4. Configuration ........ |OrcaConfiguration|
+    5. Bugs ................. |OrcaBugs|
+    6. Contributing ......... |OrcaContributing|
+    7. Changelog ............ |OrcaChangelog|
+    8. Credits .............. |OrcaCredits|
+
+====================================================================
+Section 1: Introduction                                  *OrcaUsage*
+
+If you've ever used tpope's vim plugin `fugitive`, then you'll understand how
+useful such wrapper's can be. They speed up workflow and can provide more
+intuitive interface than a bog standard CLI.
+While `git` and `docker` and very different technologies, a number of paralells
+can be drawn between them. The most important of these from my perspective is
+that they both require very long commands to accomplish what should be fairly
+standard tasks (okay, `git` commands aren't THAT long...). This was my initial
+incentive to develop a vim plugin that wraps `docker`.
+
+====================================================================
+Section 2: Docker Commands                              *OrcaDocker*
+
+
+                                                      *orca-:Docker*
+:Docker [args]      Run arbitrary docker command. Similar to :!docker [args]
+
+                                                      *orca-:Dbuild*
+:Dbuild [image]     Build an image using the Dockerfile in the current dir.
+                    The resulting image will be called [image].
+
+                                                       *orca-:Dexec*
+:Dexec [container]  Drop into a shell on [container] using the exec command.
+
+                                                       *orca-:Dpull*
+:Dpull [image]      Pull [image] down from the registery.
+                    See |g:orca_default_repo|
+
+                                                     *orca-:Dcreate*
+:Dcreate [details]  Create a container from an image.
+
+                                                     *orca-:Dstatus*
+:Dstatus [status]   List containers where status=[status] in preview window.
+                    [status] must match "restarting|running|paused|exited".
+                    Press `?` to see a list of available keymaps.
+
+                                                     *orca-:Dimages*
+:Dimages            List images that are available locally in preview window.
+                    Press `?` to see a list of available keymaps.
+
+====================================================================
+Section 3: Fig Commands                                    *OrcaFig*
+
+                                                         *orca-:Fig*
+:Fig [args]         Run arbitrary fig command. Similar to :!fig [args]
+
+                                                      *orca-:Fbuild*
+:Fbuild             This just runs `fig build`.
+
+                                                      *orca-:Fup*
+:Fup                This just runs `fig up -d`.
+
+====================================================================
+Section 4: Other Commands                                *OrcaOther*
+
+                                                      *orca-:Dshell*
+:Dshell [image]     Drop into a shell on a container created from [image].
+
+                                                      *orca-:Dwrite*
+:Dwrite [image]     Commit the latest container to [image].
+
+====================================================================
+Section 4: Configuration                         *OrcaConfiguration*
+
+====================================================================
+Section 5: Bugs                                           *OrcaBugs*
+
+====================================================================
+Section 6: Contributing                           *OrcaContributing*
+
+Whether it's a feature you want, a bugfix you've developed or a typo that's
+irritating you and you feel the urge to help, feel free to fork
+github.com/nicr9/vim-orca and submit a pull request.
+
+I've been using this project as an excuse to learn vimscript so please don't be
+shy, your input is valuble not just in moving the project forward but also as
+an excuse to get a deeper insight into the wonderful world of vim!
+
+I look forward to hearing from you!
+
+====================================================================
+Section 7: Changelog                                 *OrcaChangelog*
+
+====================================================================
+Section 8: Credits                                     *OrcaCredits*
+
+My original inspiration for the project was tpope's fugitive plugin:
+    github.com/tpope/vim-fugitive
+
+I learned most of what I know about vimscript from the wonderful e-book
+`learn vimscript the hard way`:
+    learnvimscriptthehardway.stevelosh.com
+
+The orca logo on this page was modeled after dhrp's docker logo:
+    gist.github.com/dhrp/5733652
+
+Finally, if you want to contact me and tell me what a horible/wonderful idea
+this was, feel free to drop me a line:
+    Nic Roland
+    nicroland9@gmail.com
+    @nicr9_
