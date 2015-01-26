@@ -215,12 +215,21 @@ function! s:setup_dstatus()
     nmap <buffer> <silent> q :pclose!<CR>
 endfunction
 
-function! s:DockerStatus() abort
-    exec s:preview(s:docker_cmd(["ps"]))
+function! s:DockerStatus(...) abort
+    let cmd = ["ps"]
+
+    " Optionally filter results
+    if len(a:000) == 1
+        if index(["restarting", "running", "paused", "exited"], a:1) >= 0
+            let cmd = ["ps", " --filter=[status=" . a:1 . "]"]
+        endif
+    endif
+
+    exec s:preview(s:docker_cmd(cmd))
     exec s:setup_dstatus()
 endfunction
 
-command! Dstatus call s:DockerStatus()
+command! -nargs=? Dstatus call s:DockerStatus(<f-args>)
 
 " Section: Dimages
 
