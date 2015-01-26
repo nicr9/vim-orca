@@ -185,6 +185,15 @@ endfunction
 
 command! -nargs=1 Dwrite call s:DockerWrite(<f-args>)
 
+" Section: Dpatch
+
+function! s:DockerPatch(con_id) abort
+    let cmd = s:docker_cmd(["exec", a:con_id, "git", "diff", "|", "patch", "-p1"])
+    call s:run_cmd(cmd)
+endfunction
+
+command! -nargs=1 Dpatch call s:DockerPatch(<f-args>)
+
 " Section: Dstatus
 
 function! s:help_dstatus()
@@ -202,6 +211,7 @@ function! s:setup_dstatus()
     setlocal nowrap
     set filetype=dstatus
     nmap <buffer> l :call <SID>Docker("logs -f " . <SID>line_columns([0])[0])<CR>
+    nmap <buffer> p :call <SID>DockerPatch(<SID>line_columns([0])[0])<CR>
     nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dstatus()<CR>
     nmap <buffer> s :call <SID>DockerExec(<SID>line_columns([0])[0])<CR>
     nmap <buffer> <silent> ? :call <SID>help_dstatus()<CR>
