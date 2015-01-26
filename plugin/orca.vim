@@ -108,6 +108,12 @@ function! s:verify_con_id(con_id)
     return strlen(m) == 12 ? 1 : 0
 endfunction
 
+function! s:container_running(con_id)
+    let raw = system(join(s:docker_cmd(['ps', '-q']), ' '))
+    let all_running = split(raw)
+    return (index(all_running, a:con_id) > 0)
+endfunction
+
 " Section: Docker
 
 function! s:Docker(...) abort
@@ -185,6 +191,15 @@ endfunction
 
 command! -nargs=1 Dwrite call s:DockerWrite(<f-args>)
 
+" Section: Dkill
+
+function! s:DockerKill(con_id) abort
+    if s:container_running(a:con_id)
+        call s:run_cmd(s:docker_cmd(["stop", a:con_id]))
+    endif
+    call s:run_cmd(s:docker_cmd(["kill", a:con_id]))
+endfunction
+
 " Section: Dstatus
 
 function! s:help_dstatus()
@@ -201,6 +216,7 @@ function! s:setup_dstatus()
     setlocal bufhidden=delete
     setlocal nowrap
     set filetype=dstatus
+    nmap <buffer> k :call <SID>DockerKill(<SID>line_columns([0])[0])<CR>r
     nmap <buffer> l :call <SID>Docker("logs -f " . <SID>line_columns([0])[0])<CR>
     nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dstatus()<CR>
     nmap <buffer> s :call <SID>DockerExec(<SID>line_columns([0])[0])<CR>
