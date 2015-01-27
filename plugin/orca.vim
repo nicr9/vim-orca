@@ -116,6 +116,7 @@ function! s:container_running(con_id)
     let raw = system(join(s:docker_cmd(['ps', '-q']), ' '))
     let all_running = split(raw)
     return (index(all_running, a:con_id) > 0)
+endfunction
 
 function! s:latest_container()
     let cmd = s:docker_cmd(["ps", "-ql"])
