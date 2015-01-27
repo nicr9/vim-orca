@@ -116,6 +116,7 @@ function! s:container_running(con_id)
     let raw = system(join(s:docker_cmd(['ps', '-q']), ' '))
     let all_running = split(raw)
     return (index(all_running, a:con_id) > 0)
+endfunction
 
 function! s:latest_container()
     let cmd = s:docker_cmd(["ps", "-ql"])
@@ -224,6 +225,17 @@ endfunction
 
 command! -nargs=1 Dkill call s:DockerKill(<f-args>)
 
+" Section: Dpatch
+
+function! s:DockerPatch(...) abort
+    let con_id = len(a:000) == 1 ? a:1 : s:latest_container()
+
+    let cmd = s:docker_cmd(["exec", con_id, "git", "diff", "|", "patch", "-p1"])
+    call s:run_cmd(cmd)
+endfunction
+
+command! -nargs=? Dpatch call s:DockerPatch(<f-args>)
+
 " Section: Dstatus
 
 function! s:help_dstatus()
@@ -245,6 +257,7 @@ function! s:setup_dstatus()
     set filetype=dstatus
     nmap <buffer> K :call <SID>DockerKill(<SID>line_columns([0])[0])<CR>r
     nmap <buffer> l :call <SID>Docker("logs -f " . <SID>line_columns([0])[0])<CR>
+    nmap <buffer> p :call <SID>DockerPatch(<SID>line_columns([0])[0])<CR>
     nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dstatus()<CR>
     nmap <buffer> s :call <SID>DockerExec(<SID>line_columns([0])[0])<CR>
     nmap <buffer> <silent> ? :call <SID>help_dstatus()<CR>
