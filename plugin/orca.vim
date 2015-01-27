@@ -112,6 +112,16 @@ function! s:verify_con_id(con_id)
     return strlen(m) == 12 ? 1 : 0
 endfunction
 
+function! s:latest_container()
+    let cmd = s:docker_cmd(["ps", "-ql"])
+    if g:orca_debug
+        let con_id = "1234567890ab"
+    else
+        let con_id = system(join(cmd, ' '))[:-2]
+    endif
+    return con_id
+endfunction
+
 " Section: Docker
 
 function! s:Docker(...) abort
@@ -179,15 +189,24 @@ endfunction
 
 command! -nargs=1 Dcreate call s:DockerCreate([<f-args>])
 
-" Section: Dwrite
+" Section: Dcommit
 
-function! s:DockerWrite(img_name) abort
-    let cmd = s:docker_cmd(["ps", "-ql"])
-    let con_id = system(join(cmd, ' '))[:-2]
-    call s:run_cmd(s:docker_cmd(["commit", con_id, a:img_name]))
+function! s:DockerCommit(...) abort
+    " Sort out params
+    if len(a:000) == 2
+        let con_id = a:1
+        let img_name = a:2
+    elseif len(a:000) == 1
+        let con_id = s:latest_container()
+        let img_name = a:1
+    else
+        return
+    endif
+
+    call s:run_cmd(s:docker_cmd(["commit", con_id, img_name]))
 endfunction
 
-command! -nargs=1 Dwrite call s:DockerWrite(<f-args>)
+command! -nargs=* Dcommit call s:DockerCommit(<f-args>)
 
 " Section: Dstatus
 
