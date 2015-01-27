@@ -2,6 +2,7 @@
 
 ## Keymaps
 
+`K` - Stop and kill this container.
 `l` - `tail -f` the logs on this container.
 `r` - Refresh the :Dstatus preview.
 `s` - Drop into a shell on this container.
