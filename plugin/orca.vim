@@ -227,12 +227,14 @@ command! -nargs=1 Dkill call s:DockerKill(<f-args>)
 
 " Section: Dpatch
 
-function! s:DockerPatch(con_id) abort
-    let cmd = s:docker_cmd(["exec", a:con_id, "git", "diff", "|", "patch", "-p1"])
+function! s:DockerPatch(...) abort
+    let con_id = len(a:000) == 1 ? a:1 : s:latest_container()
+
+    let cmd = s:docker_cmd(["exec", con_id, "git", "diff", "|", "patch", "-p1"])
     call s:run_cmd(cmd)
 endfunction
 
-command! -nargs=1 Dpatch call s:DockerPatch(<f-args>)
+command! -nargs=? Dpatch call s:DockerPatch(<f-args>)
 
 " Section: Dstatus
 
