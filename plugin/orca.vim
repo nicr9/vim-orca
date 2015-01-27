@@ -90,6 +90,10 @@ endfunction
 
 function! s:preview_refresh()
     execute s:preview(g:orca_last_preview)
+    if exists('g:orca_preview_cursor')
+        call setpos(".", g:orca_preview_cursor)
+        unlet g:orca_preview_cursor
+    endif
 endfunction
 
 function! s:line_columns(columns)
@@ -112,6 +116,15 @@ function! s:container_running(con_id)
     let raw = system(join(s:docker_cmd(['ps', '-q']), ' '))
     let all_running = split(raw)
     return (index(all_running, a:con_id) > 0)
+
+function! s:latest_container()
+    let cmd = s:docker_cmd(["ps", "-ql"])
+    if g:orca_debug
+        let con_id = "1234567890ab"
+    else
+        let con_id = system(join(cmd, ' '))[:-2]
+    endif
+    return con_id
 endfunction
 
 " Section: Docker
@@ -181,15 +194,24 @@ endfunction
 
 command! -nargs=1 Dcreate call s:DockerCreate([<f-args>])
 
-" Section: Dwrite
+" Section: Dcommit
 
-function! s:DockerWrite(img_name) abort
-    let cmd = s:docker_cmd(["ps", "-ql"])
-    let con_id = system(join(cmd, ' '))[:-2]
-    call s:run_cmd(s:docker_cmd(["commit", con_id, a:img_name]))
+function! s:DockerCommit(...) abort
+    " Sort out params
+    if len(a:000) == 2
+        let con_id = a:1
+        let img_name = a:2
+    elseif len(a:000) == 1
+        let con_id = s:latest_container()
+        let img_name = a:1
+    else
+        return
+    endif
+
+    call s:run_cmd(s:docker_cmd(["commit", con_id, img_name]))
 endfunction
 
-command! -nargs=1 Dwrite call s:DockerWrite(<f-args>)
+command! -nargs=* Dcommit call s:DockerCommit(<f-args>)
 
 " Section: Dkill
 
@@ -205,9 +227,12 @@ command! -nargs=1 Dkill call s:DockerKill(<f-args>)
 " Section: Dstatus
 
 function! s:help_dstatus()
+    let g:orca_preview_cursor = getpos(".")
     execute ":pclose!"
     execute ":pedit! " . g:orca_path . "/res/dstatus.help"
     execute "normal \<C-W>p"
+    setlocal buftype=nowrite nomodified readonly nomodifiable
+    setlocal bufhidden=delete
     setlocal filetype=md
     nmap <buffer> <silent> ? :call <SID>preview_refresh()<CR>:call <SID>setup_dstatus()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
@@ -226,19 +251,31 @@ function! s:setup_dstatus()
     nmap <buffer> <silent> q :pclose!<CR>
 endfunction
 
-function! s:DockerStatus() abort
-    exec s:preview(s:docker_cmd(["ps"]))
+function! s:DockerStatus(...) abort
+    let cmd = ["ps"]
+
+    " Optionally filter results
+    if len(a:000) == 1
+        if index(["restarting", "running", "paused", "exited"], a:1) >= 0
+            let cmd = ["ps", " --filter=[status=" . a:1 . "]"]
+        endif
+    endif
+
+    exec s:preview(s:docker_cmd(cmd))
     exec s:setup_dstatus()
 endfunction
 
-command! Dstatus call s:DockerStatus()
+command! -nargs=? Dstatus call s:DockerStatus(<f-args>)
 
 " Section: Dimages
 
 function! s:help_dimages()
+    let g:orca_preview_cursor = getpos(".")
     execute ":pclose!"
     execute ":pedit! " . g:orca_path . "/res/dimages.help"
     execute "normal \<C-W>p"
+    setlocal buftype=nowrite nomodified readonly nomodifiable
+    setlocal bufhidden=delete
     setlocal filetype=md
     nmap <buffer> <silent> ? :call <SID>preview_refresh()<CR>:call <SID>setup_dimages()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
