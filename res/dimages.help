@@ -6,5 +6,6 @@
 `r` - Refresh the :Dimages preview.
 `s` - Open a bash shell on a freshly created container from this image.
 
+`<backspace>` - Delete this image.
 `?` - Toggle the help dialog.
 `q` - Quit. Close this preview dialog.
