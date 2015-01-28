@@ -259,6 +259,7 @@ function! s:setup_dstatus()
     setlocal bufhidden=delete
     setlocal nowrap
     set filetype=dstatus
+    nmap <buffer> c :call <SID>DockerCommit(<SID>line_col(0), <SID>line_col(-1))<CR>
     nmap <buffer> K :call <SID>DockerKill(<SID>line_col(0))<CR>r
     nmap <buffer> l :call <SID>Docker("logs -f " . <SID>line_col(0)<CR>
     nmap <buffer> p :call <SID>DockerPatch(<SID>line_col(0)<CR>
