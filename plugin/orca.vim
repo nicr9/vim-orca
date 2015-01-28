@@ -107,6 +107,10 @@ function! s:line_columns(columns)
     return results
 endfunction
 
+function! s:line_col(column)
+    return s:line_columns([a:column])[0]
+endfunction
+
 function! s:verify_con_id(con_id)
     let m = matchstr(a:con_id, s:con_id_re)
     return strlen(m) == 12 ? 1 : 0
@@ -255,11 +259,11 @@ function! s:setup_dstatus()
     setlocal bufhidden=delete
     setlocal nowrap
     set filetype=dstatus
-    nmap <buffer> K :call <SID>DockerKill(<SID>line_columns([0])[0])<CR>r
-    nmap <buffer> l :call <SID>Docker("logs -f " . <SID>line_columns([0])[0])<CR>
-    nmap <buffer> p :call <SID>DockerPatch(<SID>line_columns([0])[0])<CR>
+    nmap <buffer> K :call <SID>DockerKill(<SID>line_col(0))<CR>r
+    nmap <buffer> l :call <SID>Docker("logs -f " . <SID>line_col(0)<CR>
+    nmap <buffer> p :call <SID>DockerPatch(<SID>line_col(0)<CR>
     nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dstatus()<CR>
-    nmap <buffer> s :call <SID>DockerExec(<SID>line_columns([0])[0])<CR>
+    nmap <buffer> s :call <SID>DockerExec(<SID>line_col(0)<CR>
     nmap <buffer> <silent> ? :call <SID>help_dstatus()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
 endfunction
@@ -301,7 +305,7 @@ function! s:setup_dimages()
     set filetype=dstatus
     nmap <buffer> c :call <SID>DockerCreate(<SID>line_columns([0,1,2]))<CR>
     nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dimages()<CR>
-    nmap <buffer> s :call <SID>DockerShell(<SID>line_columns([2])[0])<CR>
+    nmap <buffer> s :call <SID>DockerShell(<SID>line_col(2))<CR>
     nmap <buffer> <silent> ? :call <SID>help_dimages()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
 endfunction
