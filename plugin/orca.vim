@@ -243,7 +243,7 @@ command! -nargs=? Dpatch call s:DockerPatch(<f-args>)
 " Section: Drmi
 
 function! s:DockerRmi(img_name) abort
-    let cmd = s:docker_cmd(["rmi", a:img_name])
+    let cmd = s:docker_cmd(["rmi", '-f', a:img_name])
     call s:run_cmd(cmd)
 endfunction
 
@@ -323,7 +323,7 @@ function! s:setup_dimages()
     nmap <buffer> d :call <SID>DockerRun('-d', <SID>line_col(2))<CR>
     nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dimages()<CR>
     nmap <buffer> s :call <SID>DockerRun('-it', <SID>line_col(2))<CR>
-    nmap <buffer> <backspace> :call <SID>DockerRmi(<SID>line_col(2))<CR>
+    nmap <silent> <buffer> <backspace> :call <SID>DockerRmi(<SID>line_col(2))<CR>r
     nmap <buffer> <silent> ? :call <SID>help_dimages()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
 endfunction

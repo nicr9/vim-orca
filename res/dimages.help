@@ -6,6 +6,6 @@
 `r` - Refresh the :Dimages preview.
 `s` - Run this image, keep STDIN open and allocate a pseudo-TTY (-it).
 
-`<backspace>` - Delete this image.
+`<backspace>` - Delete this image and any exited containers using it.
 `?` - Toggle the help dialog.
 `q` - Quit. Close this preview dialog.
