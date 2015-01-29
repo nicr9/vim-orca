@@ -292,6 +292,8 @@ function! s:DockerStatus(...) abort
     if len(a:000) == 1
         if index(["restarting", "running", "paused", "exited"], a:1) >= 0
             let cmd = ["ps", " --filter=[status=" . a:1 . "]"]
+        elseif a:1 == 'all'
+            let cmd = ["ps", '-a']
         endif
     endif
 
