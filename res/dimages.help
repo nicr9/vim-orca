@@ -2,9 +2,10 @@
 
 ## Keymaps
 
-`c` - Create a container from this image.
+`d` - Run this image as a daemon (-d).
 `r` - Refresh the :Dimages preview.
-`s` - Open a bash shell on a freshly created container from this image.
+`s` - Run this image, keep STDIN open and allocate a pseudo-TTY (-it).
 
+`<backspace>` - Delete this image and any exited containers using it.
 `?` - Toggle the help dialog.
 `q` - Quit. Close this preview dialog.
