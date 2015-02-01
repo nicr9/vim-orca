@@ -149,15 +149,6 @@ endfunction
 
 command! -nargs=1 Dbuild call s:DockerBuild(<f-args>)
 
-" Section: Dshell
-
-function! s:DockerShell(image_tag) abort
-    let cmd = ["run", "-it", a:image_tag, '/bin/bash']
-    exec s:run_cmd(s:docker_cmd(cmd))
-endfunction
-
-command! -nargs=1 Dshell call s:DockerShell(<f-args>)
-
 " Section: Dexec
 
 function! s:DockerExec(con_id) abort
@@ -229,17 +220,6 @@ endfunction
 
 command! -nargs=1 Dkill call s:DockerKill(<f-args>)
 
-" Section: Dpatch
-
-function! s:DockerPatch(...) abort
-    let con_id = len(a:000) == 1 ? a:1 : s:latest_container()
-
-    let cmd = s:docker_cmd(["exec", con_id, "git", "diff", "|", "patch", "-p1"])
-    call s:run_cmd(cmd)
-endfunction
-
-command! -nargs=? Dpatch call s:DockerPatch(<f-args>)
-
 " Section: Drmi
 
 function! s:DockerRmi(img_name) abort
@@ -266,6 +246,60 @@ function! s:DockerRun(flags, img_name) abort
 endfunction
 
 command! -nargs=* Drun call s:DockerRun(<f-args>)
+
+" Section: Dimages
+
+function! s:help_dimages()
+    let g:orca_preview_cursor = getpos(".")
+    execute ":pclose!"
+    execute ":pedit! " . g:orca_path . "/res/dimages.help"
+    execute "normal \<C-W>p"
+    setlocal buftype=nowrite nomodified readonly nomodifiable
+    setlocal bufhidden=delete
+    setlocal filetype=md
+    nmap <buffer> <silent> ? :call <SID>preview_refresh()<CR>:call <SID>setup_dimages()<CR>
+    nmap <buffer> <silent> q :pclose!<CR>
+endfunction
+
+function! s:setup_dimages()
+    setlocal buftype=nowrite nomodified readonly nomodifiable
+    setlocal bufhidden=delete
+    setlocal nowrap
+    set filetype=dstatus
+    nmap <buffer> d :call <SID>DockerRun('-d', <SID>line_col(2))<CR>
+    nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dimages()<CR>
+    nmap <buffer> s :call <SID>DockerRun('-it', <SID>line_col(2))<CR>
+    nmap <silent> <buffer> <backspace> :call <SID>DockerRmi(<SID>line_col(2))<CR>r
+    nmap <buffer> <silent> ? :call <SID>help_dimages()<CR>
+    nmap <buffer> <silent> q :pclose!<CR>
+endfunction
+
+function! s:DockerImages() abort
+    exec s:preview(s:docker_cmd(["images"]))
+    exec s:setup_dimages()
+endfunction
+
+command! Dimages call s:DockerImages()
+
+" Section: Dshell
+
+function! s:DockerShell(image_tag) abort
+    let cmd = ["run", "-it", a:image_tag, '/bin/bash']
+    exec s:run_cmd(s:docker_cmd(cmd))
+endfunction
+
+command! -nargs=1 Dshell call s:DockerShell(<f-args>)
+
+" Section: Dpatch
+
+function! s:DockerPatch(...) abort
+    let con_id = len(a:000) == 1 ? a:1 : s:latest_container()
+
+    let cmd = s:docker_cmd(["exec", con_id, "git", "diff", "|", "patch", "-p1"])
+    call s:run_cmd(cmd)
+endfunction
+
+command! -nargs=? Dpatch call s:DockerPatch(<f-args>)
 
 " Section: Dstatus
 
@@ -314,40 +348,6 @@ function! s:DockerStatus(...) abort
 endfunction
 
 command! -nargs=? Dstatus call s:DockerStatus(<f-args>)
-
-" Section: Dimages
-
-function! s:help_dimages()
-    let g:orca_preview_cursor = getpos(".")
-    execute ":pclose!"
-    execute ":pedit! " . g:orca_path . "/res/dimages.help"
-    execute "normal \<C-W>p"
-    setlocal buftype=nowrite nomodified readonly nomodifiable
-    setlocal bufhidden=delete
-    setlocal filetype=md
-    nmap <buffer> <silent> ? :call <SID>preview_refresh()<CR>:call <SID>setup_dimages()<CR>
-    nmap <buffer> <silent> q :pclose!<CR>
-endfunction
-
-function! s:setup_dimages()
-    setlocal buftype=nowrite nomodified readonly nomodifiable
-    setlocal bufhidden=delete
-    setlocal nowrap
-    set filetype=dstatus
-    nmap <buffer> d :call <SID>DockerRun('-d', <SID>line_col(2))<CR>
-    nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dimages()<CR>
-    nmap <buffer> s :call <SID>DockerRun('-it', <SID>line_col(2))<CR>
-    nmap <silent> <buffer> <backspace> :call <SID>DockerRmi(<SID>line_col(2))<CR>r
-    nmap <buffer> <silent> ? :call <SID>help_dimages()<CR>
-    nmap <buffer> <silent> q :pclose!<CR>
-endfunction
-
-function! s:DockerImages() abort
-    exec s:preview(s:docker_cmd(["images"]))
-    exec s:setup_dimages()
-endfunction
-
-command! Dimages call s:DockerImages()
 
 " Section: Fig
 
