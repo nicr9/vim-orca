@@ -58,10 +58,20 @@ Section 2: Docker Commands                              *OrcaDocker*
                                                      *orca-:Dcreate*
 :Dcreate [details]  Create a container from an image.
 
-                                                     *orca-:Dstatus*
-:Dstatus [status]   List containers where status=[status] in preview window.
-                    [status] must match "restarting|running|paused|exited".
-                    Press `?` to see a list of available keymaps.
+                                                     *orca-:Dcommit*
+:Dcommit [container] [image]
+                    Commit the contents of container to a new image.
+
+                                                       *orca-:Dkill*
+:Dkill [container]  Forcibly stop container.
+
+                                                        *orca-:Drmi*
+:Drmi [image]       Delete image and any containers using it.
+
+                                                        *orca-:Drun*
+:Drun [flags] [image]
+                    Run image in new container with flags.
+                    Suggested flags values: '-it-, '-d'
 
                                                      *orca-:Dimages*
 :Dimages            List images that are available locally in preview window.
@@ -85,8 +95,15 @@ Section 4: Other Commands                                *OrcaOther*
                                                       *orca-:Dshell*
 :Dshell [image]     Drop into a shell on a container created from [image].
 
+                                                     *orca-:Dstatus*
+:Dstatus [status]   List containers where status=[status] in preview window.
+                    [status], if provided, must match the following regex:
+                    "all|restarting|running|paused|exited".
+                    Press `?` to see a list of available keymaps.
+
                                                       *orca-:Dwrite*
-:Dwrite [image]     Commit the latest container to [image].
+:Dpatch [container] Patch the current dir with changes from the container.
+                    Changes are found by running `docker exec ... git diff`.
 
 ====================================================================
 Section 4: Configuration                         *OrcaConfiguration*
