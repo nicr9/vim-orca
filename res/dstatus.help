@@ -10,5 +10,6 @@
 `r` - Refresh the :Dstatus preview.
 `s` - Drop into a shell on this container.
 
+`<backspace>` - Delete this container.
 `?` - Toggle the help dialog.
 `q` - Quit. Close this preview dialog.

@@ -247,6 +247,17 @@ function! s:DockerRmi(img_name) abort
     call s:run_cmd(cmd)
 endfunction
 
+command! -nargs=1 Drmi call s:DockerRmi(<f-args>)
+
+" Section: Drm
+
+function! s:DockerRm(con_id) abort
+    let cmd = s:docker_cmd(["rm", '-f', a:con_id])
+    call s:run_cmd(cmd)
+endfunction
+
+command! -nargs=1 Drm call s:DockerRm(<f-args>)
+
 " Section: Drun
 
 function! s:DockerRun(flags, img_name) abort
@@ -281,6 +292,7 @@ function! s:setup_dstatus()
     nmap <buffer> p :call <SID>DockerPatch(<SID>line_col(0)<CR>
     nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dstatus()<CR>
     nmap <buffer> s :call <SID>DockerExec(<SID>line_col(0)<CR>
+    nmap <silent> <buffer> <backspace> :call <SID>DockerRm(<SID>line_col(0))<CR>r
     nmap <buffer> <silent> ? :call <SID>help_dstatus()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
 endfunction
