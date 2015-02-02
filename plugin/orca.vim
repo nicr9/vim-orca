@@ -322,10 +322,10 @@ function! s:setup_dstatus()
     set filetype=dstatus
     nmap <buffer> c :call <SID>DockerCommit(<SID>line_col(0), <SID>line_col(-1))<CR>
     nmap <buffer> K :call <SID>DockerKill(<SID>line_col(0))<CR>r
-    nmap <buffer> l :call <SID>Docker("logs -f " . <SID>line_col(0)<CR>
-    nmap <buffer> p :call <SID>DockerPatch(<SID>line_col(0)<CR>
+    nmap <buffer> l :call <SID>Docker("logs -f " . <SID>line_col(0))<CR>
+    nmap <buffer> p :call <SID>DockerPatch(<SID>line_col(0))<CR>
     nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dstatus()<CR>
-    nmap <buffer> s :call <SID>DockerExec(<SID>line_col(0)<CR>
+    nmap <buffer> s :call <SID>DockerExec(<SID>line_col(0))<CR>
     nmap <silent> <buffer> <backspace> :call <SID>DockerRm(<SID>line_col(0))<CR>r
     nmap <buffer> <silent> ? :call <SID>help_dstatus()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
