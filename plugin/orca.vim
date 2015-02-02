@@ -247,6 +247,37 @@ endfunction
 
 command! -nargs=* Drun call s:DockerRun(<f-args>)
 
+" Section: Dlogs
+
+function! s:help_dlogs()
+    let g:orca_preview_cursor = getpos(".")
+    execute ":pclose!"
+    execute ":pedit! " . g:orca_path . "/res/dlogs.help"
+    execute "normal \<C-W>p"
+    setlocal buftype=nowrite nomodified readonly nomodifiable
+    setlocal bufhidden=delete
+    setlocal filetype=md
+    nmap <buffer> <silent> ? :call <SID>preview_refresh()<CR>:call <SID>setup_dlogs()<CR>
+    nmap <buffer> <silent> q :pclose!<CR>
+endfunction
+
+function! s:setup_dlogs()
+    setlocal buftype=nowrite nomodified readonly nomodifiable
+    setlocal bufhidden=delete
+    setlocal nowrap
+    set filetype=dstatus
+    nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dlogs()<CR>
+    nmap <buffer> <silent> ? :call <SID>help_dimages()<CR>
+    nmap <buffer> <silent> q :pclose!<CR>
+endfunction
+
+function! s:DockerLogs(con_id) abort
+    exec s:preview(s:docker_cmd(["logs", a:con_id]))
+    exec s:setup_dimages()
+endfunction
+
+command! -nargs=1 Dlogs call s:DockerLogs(<f-args>)
+
 " Section: Dimages
 
 function! s:help_dimages()
@@ -323,6 +354,7 @@ function! s:setup_dstatus()
     nmap <buffer> c :call <SID>DockerCommit(<SID>line_col(0), <SID>line_col(-1))<CR>
     nmap <buffer> K :call <SID>DockerKill(<SID>line_col(0))<CR>r
     nmap <buffer> l :call <SID>Docker("logs -f " . <SID>line_col(0))<CR>
+    nmap <buffer> L :call <SID>DockerLogs(<SID>line_col(0))<CR>
     nmap <buffer> p :call <SID>DockerPatch(<SID>line_col(0))<CR>
     nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dstatus()<CR>
     nmap <buffer> s :call <SID>DockerExec(<SID>line_col(0))<CR>
