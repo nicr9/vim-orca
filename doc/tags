@@ -9,11 +9,15 @@ OrcaFig	orca.txt	/*OrcaFig*
 OrcaOther	orca.txt	/*OrcaOther*
 OrcaUsage	orca.txt	/*OrcaUsage*
 orca-:Dbuild	orca.txt	/*orca-:Dbuild*
+orca-:Dcommit	orca.txt	/*orca-:Dcommit*
 orca-:Dcreate	orca.txt	/*orca-:Dcreate*
 orca-:Dexec	orca.txt	/*orca-:Dexec*
 orca-:Dimages	orca.txt	/*orca-:Dimages*
+orca-:Dkill	orca.txt	/*orca-:Dkill*
 orca-:Docker	orca.txt	/*orca-:Docker*
 orca-:Dpull	orca.txt	/*orca-:Dpull*
+orca-:Drmi	orca.txt	/*orca-:Drmi*
+orca-:Drun	orca.txt	/*orca-:Drun*
 orca-:Dshell	orca.txt	/*orca-:Dshell*
 orca-:Dstatus	orca.txt	/*orca-:Dstatus*
 orca-:Dwrite	orca.txt	/*orca-:Dwrite*
