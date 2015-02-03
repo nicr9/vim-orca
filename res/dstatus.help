@@ -6,6 +6,7 @@
       The image tag will be <container_name>:latest.
 `K` - Stop and kill this container.
 `l` - `tail -f` the logs on this container.
+`L` - Preview logs from this container.
 `p` - Patch current dir with results of `git diff` inside the container.
 `r` - Refresh the :Dstatus preview.
 `s` - Drop into a shell on this container.

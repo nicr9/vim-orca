@@ -267,13 +267,13 @@ function! s:setup_dlogs()
     setlocal nowrap
     set filetype=dstatus
     nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dlogs()<CR>
-    nmap <buffer> <silent> ? :call <SID>help_dimages()<CR>
+    nmap <buffer> <silent> ? :call <SID>help_dlogs()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
 endfunction
 
 function! s:DockerLogs(con_id) abort
     exec s:preview(s:docker_cmd(["logs", a:con_id]))
-    exec s:setup_dimages()
+    exec s:setup_dlogs()
 endfunction
 
 command! -nargs=1 Dlogs call s:DockerLogs(<f-args>)
