@@ -252,6 +252,15 @@ endfunction
 
 command! -nargs=* Drun call s:DockerRun(<f-args>)
 
+" Section: Dhistory
+
+function! s:DockerHistory(image_tag) abort
+    let cmd = ['history', a:image_tag]
+    call s:run_cmd(s:docker_cmd(cmd))
+endfunction
+
+command! -nargs=1 Dhistory call s:DockerHistory(<f-args>)
+
 " Section: Dinspect
 
 function! s:help_dinspect()
@@ -335,6 +344,7 @@ function! s:setup_dimages()
     setlocal nowrap
     set filetype=dstatus
     nmap <buffer> d :call <SID>DockerRun('-d', <SID>line_col(2))<CR>
+    nmap <buffer> h :call <SID>DockerHistory(<SID>line_col(2))<CR>
     nmap <buffer> i :call <SID>DockerInspect(<SID>line_col(2))<CR>
     nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dimages()<CR>
     nmap <buffer> s :call <SID>DockerRun('-it', <SID>line_col(2))<CR>
