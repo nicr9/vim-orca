@@ -142,12 +142,19 @@ command! -nargs=+ Docker call s:Docker(<f-args>)
 
 " Section: Dbuild
 
-function! s:DockerBuild(image_tag) abort
-    let cmd = ["build", "--rm=false", "-t", a:image_tag, '.']
+function! s:DockerBuild(image_tag, ...) abort
+    " parse optional params
+    let context = '.'
+    if a:0 > 0
+        let context = a:1
+    endif
+    echom "context: " . context
+
+    let cmd = ["build", "--rm=false", "-t", a:image_tag, context]
     exec s:run_cmd(s:docker_cmd(cmd))
 endfunction
 
-command! -nargs=1 Dbuild call s:DockerBuild(<f-args>)
+command! -nargs=* Dbuild call s:DockerBuild(<f-args>)
 
 " Section: Dexec
 
