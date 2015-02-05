@@ -151,11 +151,9 @@ command! -nargs=1 Dbuild call s:DockerBuild(<f-args>)
 
 " Section: Dexec
 
-function! s:DockerExec(con_id) abort
-    if s:verify_con_id(a:con_id)
-        let cmd = ["exec", "-it", a:con_id, "/bin/bash"]
-        call s:run_cmd(s:docker_cmd(cmd))
-    endif
+function! s:DockerExec(...) abort
+    let cmd = extend(["exec"], a:000)
+    call s:run_cmd(s:docker_cmd(cmd))
 endfunction
 
 command! -nargs=1 Dexec call s:DockerExec(<f-args>)
@@ -240,9 +238,9 @@ command! -nargs=1 Drm call s:DockerRm(<f-args>)
 
 " Section: Drun
 
-function! s:DockerRun(flags, img_name) abort
-    let cmd = s:docker_cmd(["run", a:flags, a:img_name])
-    call s:run_cmd(cmd)
+function! s:DockerRun(...) abort
+    let cmd = extend(['run'], a:000)
+    call s:run_cmd(s:docker_cmd(cmd))
 endfunction
 
 command! -nargs=* Drun call s:DockerRun(<f-args>)
@@ -312,15 +310,6 @@ endfunction
 
 command! Dimages call s:DockerImages()
 
-" Section: Dshell
-
-function! s:DockerShell(image_tag) abort
-    let cmd = ["run", "-it", a:image_tag, '/bin/bash']
-    exec s:run_cmd(s:docker_cmd(cmd))
-endfunction
-
-command! -nargs=1 Dshell call s:DockerShell(<f-args>)
-
 " Section: Dpatch
 
 function! s:DockerPatch(...) abort
@@ -357,7 +346,7 @@ function! s:setup_dstatus()
     nmap <buffer> L :call <SID>DockerLogs(<SID>line_col(0))<CR>
     nmap <buffer> p :call <SID>DockerPatch(<SID>line_col(0))<CR>
     nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dstatus()<CR>
-    nmap <buffer> s :call <SID>DockerExec(<SID>line_col(0))<CR>
+    nmap <buffer> s :call <SID>DockerExec('-it', <SID>line_col(0), '/bin/bash')<CR>
     nmap <silent> <buffer> <backspace> :call <SID>DockerRm(<SID>line_col(0))<CR>r
     nmap <buffer> <silent> ? :call <SID>help_dstatus()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
