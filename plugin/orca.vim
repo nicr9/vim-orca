@@ -426,11 +426,12 @@ command! -nargs=+ Fig call s:Fig(<f-args>)
 
 " Section: Fbuild
 
-function! s:FigBuild() abort
-    exec s:run_cmd(s:fig_cmd(["build"]))
+function! s:FigBuild(...) abort
+    let cmd = a:0 == 1 ? ["build", a:1] : ["build"]
+    exec s:run_cmd(s:fig_cmd(cmd))
 endfunction
 
-command! Fbuild call s:FigBuild()
+command! -nargs=? Fbuild call s:FigBuild(<f-args>)
 
 " Section: Fup
 
