@@ -317,12 +317,13 @@ function! s:setup_dlogs()
     nmap <buffer> <silent> q :pclose!<CR>
 endfunction
 
-function! s:DockerLogs(con_id) abort
-    exec s:preview(s:docker_cmd(["logs", a:con_id]))
+function! s:DockerLogs(...) abort
+    let con_id = len(a:000) == 1 ? a:1 : s:latest_container()
+    exec s:preview(s:docker_cmd(["logs", con_id]))
     exec s:setup_dlogs()
 endfunction
 
-command! -nargs=1 Dlogs call s:DockerLogs(<f-args>)
+command! -nargs=? Dlogs call s:DockerLogs(<f-args>)
 
 " Section: Dimages
 
