@@ -22,7 +22,6 @@ let g:orca_version = "v0.2"
 let g:orca_path = expand('<sfile>:p:h:h')
 
 let s:multi_ws_re = '\s\s\+'
-let s:con_id_re = '^[a-fA-F0-9]*'
 
 " Section: utils
 
@@ -109,11 +108,6 @@ endfunction
 
 function! s:line_col(column)
     return s:line_columns([a:column])[0]
-endfunction
-
-function! s:verify_con_id(con_id)
-    let m = matchstr(a:con_id, s:con_id_re)
-    return strlen(m) == 12 ? 1 : 0
 endfunction
 
 function! s:container_running(con_id)
