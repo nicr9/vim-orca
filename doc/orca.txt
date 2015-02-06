@@ -45,22 +45,27 @@ Section 2: Docker Commands                              *OrcaDocker*
 :Docker [args]      Run arbitrary docker command. Similar to :!docker [args]
 
                                                       *orca-:Dbuild*
-:Dbuild [image]     Build an image using the Dockerfile in the current dir.
+:Dbuild <image> [context]
+                    Build an image using the Dockerfile in the current dir.
                     The resulting image will be called [image].
 
                                                        *orca-:Dexec*
-:Dexec [container]  Drop into a shell on [container] using the exec command.
+:Dexec [args]       For arbitrary `docker exec` commands.
 
                                                        *orca-:Dpull*
 :Dpull [image]      Pull [image] down from the registery.
-                    See |g:orca_default_repo|
+                    See |g:orca_default_repo| to use private registeries.
 
                                                      *orca-:Dcreate*
-:Dcreate [details]  Create a container from an image.
+:Dcreate [details]  DEPRECATED. This function will be wildly different in
+                    future versions of orca.
+                    Create a container from an image.
 
                                                      *orca-:Dcommit*
 :Dcommit [container] [image]
                     Commit the contents of container to a new image.
+                    If [container] is unspecified, the latest_container will
+                    be used by default.
 
                                                        *orca-:Dkill*
 :Dkill [container]  Forcibly stop container.
@@ -68,10 +73,26 @@ Section 2: Docker Commands                              *OrcaDocker*
                                                         *orca-:Drmi*
 :Drmi [image]       Delete image and any containers using it.
 
+                                                         *orca-:Drm*
+:Drm [image]        Delete a container.
+
                                                         *orca-:Drun*
-:Drun [flags] [image]
-                    Run image in new container with flags.
-                    Suggested flags values: '-it-, '-d'
+:Drun [args]        Run an arbitrary `docker run` command.
+
+                                                    *orca-:Dhistory*
+:Dhistory [image]   See how [image] was built.
+
+                                                    *orca-:Dinspect*
+:Dinspect [object]  Low-level information on a container or image.
+                    Results will be displayed in a preview for convienient
+                    searching.
+
+                                                       *orca-:Dlogs*
+:Dlogs [container]  Retrieve the logs from a specific [container].
+                    If [container] is unspecified, the latest_container will
+                    be used by default.
+                    Results will be displayed in a preview for convienient
+                    searching.
 
                                                      *orca-:Dimages*
 :Dimages            List images that are available locally in preview window.
@@ -84,7 +105,8 @@ Section 3: Fig Commands                                    *OrcaFig*
 :Fig [args]         Run arbitrary fig command. Similar to :!fig [args]
 
                                                       *orca-:Fbuild*
-:Fbuild             This just runs `fig build`.
+:Fbuild [service]   This just runs `fig build`. You have the option of
+                    specifying the [service], otherwise it will build them all.
 
                                                       *orca-:Fup*
 :Fup                This just runs `fig up -d`.
@@ -108,8 +130,14 @@ Section 4: Other Commands                                *OrcaOther*
 ====================================================================
 Section 4: Configuration                         *OrcaConfiguration*
 
+Coming soon!
+
 ====================================================================
 Section 5: Bugs                                           *OrcaBugs*
+
+* Preview windows can capture a 'Sorry, try again' message if you get the sudo
+  password wrong.
+* `:Dlogs` can suck in other bash commands if the logs end with a `!`
 
 ====================================================================
 Section 6: Contributing                           *OrcaContributing*
@@ -126,6 +154,8 @@ I look forward to hearing from you!
 
 ====================================================================
 Section 7: Changelog                                 *OrcaChangelog*
+
+Coming soon!
 
 ====================================================================
 Section 8: Credits                                     *OrcaCredits*
