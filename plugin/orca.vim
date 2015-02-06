@@ -285,13 +285,13 @@ function! s:setup_dinspect()
     nmap <buffer> <silent> q :pclose!<CR>
 endfunction
 
-function! s:DockerInspect(object) abort
-    let cmd = s:docker_cmd(["inspect", a:object])
-    exec s:preview(cmd)
+function! s:DockerInspect(...) abort
+    let object = len(a:000) == 1 ? a:1 : s:latest_container()
+    exec s:preview(s:docker_cmd(["inspect", object]))
     exec s:setup_dinspect()
 endfunction
 
-command! -nargs=1 Dinspect call s:DockerInspect(<f-args>)
+command! -nargs=? Dinspect call s:DockerInspect(<f-args>)
 
 " Section: Dlogs
 
