@@ -12,8 +12,8 @@ if !exists("g:orca_sudo")
     let g:orca_sudo = 1
 endif
 
-if !exists("g:orca_default_repo")
-    let g:orca_default_repo = ""
+if !exists("g:orca_private_registery")
+    let g:orca_private_registery = ""
 endif
 
 " Section: useful constants
@@ -163,8 +163,8 @@ command! -nargs=1 Dexec call s:DockerExec(<f-args>)
 
 function! s:DockerPull(image) abort
     let image = a:image
-    if strlen(g:orca_default_repo) != 0
-        let image = g:orca_default_repo . image
+    if strlen(g:orca_private_registery) != 0
+        let image = g:orca_private_registery . image
     endif
     call s:run_cmd(s:docker_cmd(["pull", image]))
 endfunction

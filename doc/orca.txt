@@ -54,7 +54,7 @@ Section 2: Docker Commands                              *OrcaDocker*
 
                                                        *orca-:Dpull*
 :Dpull [image]      Pull [image] down from the registery.
-                    See |g:orca_default_repo| to use private registeries.
+                    See |g:orca_private_registery| to use private registeries.
 
                                                      *orca-:Dcreate*
 :Dcreate [details]  DEPRECATED. This function will be wildly different in
