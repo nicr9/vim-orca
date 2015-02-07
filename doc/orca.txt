@@ -114,9 +114,6 @@ Section 3: Fig Commands                                    *OrcaFig*
 ====================================================================
 Section 4: Other Commands                                *OrcaOther*
 
-                                                      *orca-:Dshell*
-:Dshell [image]     Drop into a shell on a container created from [image].
-
                                                      *orca-:Dstatus*
 :Dstatus [status]   List containers where status=[status] in preview window.
                     [status], if provided, must match the following regex:
@@ -138,6 +135,7 @@ Section 5: Bugs                                           *OrcaBugs*
 * Preview windows can capture a 'Sorry, try again' message if you get the sudo
   password wrong.
 * `:Dlogs` can suck in other bash commands if the logs end with a `!`
+* `s:Dstatus` filtering doesn't work with "restarting|running|paused|exited"
 
 ====================================================================
 Section 6: Contributing                           *OrcaContributing*
