@@ -74,7 +74,7 @@ Section 2: Docker Commands                              *OrcaDocker*
 :Drmi [image]       Delete image and any containers using it.
 
                                                          *orca-:Drm*
-:Drm [image]        Delete a container.
+:Drm [container]    Delete a container.
 
                                                         *orca-:Drun*
 :Drun [args]        Run an arbitrary `docker run` command.
