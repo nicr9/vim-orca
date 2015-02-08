@@ -69,12 +69,16 @@ Section 2: Docker Commands                              *OrcaDocker*
 
                                                        *orca-:Dkill*
 :Dkill [container]  Forcibly stop container.
+                    If [container] is unspecified, the latest_container will
+                    be used by default.
 
                                                         *orca-:Drmi*
 :Drmi [image]       Delete image and any containers using it.
 
                                                          *orca-:Drm*
-:Drm [image]        Delete a container.
+:Drm [container]    Delete a container.
+                    If [container] is unspecified, the latest_container will
+                    be used by default.
 
                                                         *orca-:Drun*
 :Drun [args]        Run an arbitrary `docker run` command.
@@ -84,6 +88,8 @@ Section 2: Docker Commands                              *OrcaDocker*
 
                                                     *orca-:Dinspect*
 :Dinspect [object]  Low-level information on a container or image.
+                    If [container] is unspecified, the latest_container will
+                    be used by default.
                     Results will be displayed in a preview for convienient
                     searching.
 
