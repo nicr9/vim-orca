@@ -173,7 +173,7 @@ command! -nargs=1 Dpull call s:DockerPull(<f-args>)
 
 " Section: Dcreate
 
-function! s:DockerCreate(details)
+function! s:DockerCreate(details) abort
     let details = filter(a:details, "v:val != '<none>'")
     let name = join(a:details[:-2], '_')
     let image = a:details[-1]
@@ -184,7 +184,14 @@ function! s:DockerCreate(details)
         let cmd = ['create', image]
     endif
 
-    call s:run_cmd(s:docker_cmd(cmd))
+    exec s:run_cmd(s:docker_cmd(cmd))
+
+    if strlen(name) == 0
+        let raw = system(join(s:docker_cmd(['ps', '-l']), ' '))
+        let name = split(raw)[-1]
+    endif
+
+    echom "Created container: " . name
 endfunction
 
 command! -nargs=1 Dcreate call s:DockerCreate([<f-args>])
@@ -230,12 +237,13 @@ command! -nargs=1 Drmi call s:DockerRmi(<f-args>)
 
 " Section: Drm
 
-function! s:DockerRm(con_id) abort
-    let cmd = s:docker_cmd(["rm", '-f', a:con_id])
+function! s:DockerRm(...) abort
+    let con_id = len(a:000) == 1 ? a:1 : s:latest_container()
+    let cmd = s:docker_cmd(["rm", '-f', con_id])
     call s:run_cmd(cmd)
 endfunction
 
-command! -nargs=1 Drm call s:DockerRm(<f-args>)
+command! -nargs=? Drm call s:DockerRm(<f-args>)
 
 " Section: Drun
 
