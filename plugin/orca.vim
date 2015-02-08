@@ -217,14 +217,15 @@ command! -nargs=* Dcommit call s:DockerCommit(<f-args>)
 
 " Section: Dkill
 
-function! s:DockerKill(con_id) abort
-    if s:container_running(a:con_id)
-        call s:run_cmd(s:docker_cmd(["stop", a:con_id]))
+function! s:DockerKill(...) abort
+    let con_id = len(a:000) == 1 ? a:1 : s:latest_container()
+    if s:container_running(con_id)
+        call s:run_cmd(s:docker_cmd(["stop", con_id]))
     endif
-    call s:run_cmd(s:docker_cmd(["kill", a:con_id]))
+    call s:run_cmd(s:docker_cmd(["kill", con_id]))
 endfunction
 
-command! -nargs=1 Dkill call s:DockerKill(<f-args>)
+command! -nargs=? Dkill call s:DockerKill(<f-args>)
 
 " Section: Drmi
 
