@@ -16,6 +16,10 @@ if !exists("g:orca_private_registery")
     let g:orca_private_registery = ""
 endif
 
+if !exists("g:orca_preview_dir")
+    let g:orca_preview_dir = "/tmp/orca/"
+endif
+
 " Section: useful constants
 
 let g:orca_version = "v0.3"
@@ -67,9 +71,15 @@ function! s:debug_file(cmd) abort
     return full_name
 endfunction
 
-function! s:preview(cmd)
-    let g:orca_last_preview = a:cmd
-    let tmp = tempname()
+function! s:preview(cmd, file_name)
+    let g:orca_last_preview_cmd = a:cmd
+    let g:orca_last_preview_file = a:file_name
+    let tmp = g:orca_preview_dir . a:file_name
+
+    " Setup /tmp
+    if !isdirectory(g:orca_preview_dir)
+        exec mkdir(g:orca_preview_dir, 'p')
+    endif
 
     " Write info to file
     if g:orca_debug
@@ -88,7 +98,7 @@ function! s:preview(cmd)
 endfunction
 
 function! s:preview_refresh()
-    execute s:preview(g:orca_last_preview)
+    execute s:preview(g:orca_last_preview_cmd, g:orca_last_preview_file)
     if exists('g:orca_preview_cursor')
         call setpos(".", g:orca_preview_cursor)
         unlet g:orca_preview_cursor
@@ -286,7 +296,8 @@ endfunction
 
 function! s:DockerInspect(...) abort
     let object = len(a:000) == 1 ? a:1 : s:latest_container()
-    exec s:preview(s:docker_cmd(["inspect", object]))
+    let file_name = 'inspect_' . object
+    exec s:preview(s:docker_cmd(["inspect", object]), file_name)
     exec s:setup_dinspect()
 endfunction
 
@@ -318,7 +329,8 @@ endfunction
 
 function! s:DockerLogs(...) abort
     let con_id = len(a:000) == 1 ? a:1 : s:latest_container()
-    exec s:preview(s:docker_cmd(["logs", con_id]))
+    let file_name = 'logs_' . con_id
+    exec s:preview(s:docker_cmd(["logs", con_id]), file_name)
     exec s:setup_dlogs()
 endfunction
 
@@ -354,7 +366,8 @@ function! s:setup_dimages()
 endfunction
 
 function! s:DockerImages() abort
-    exec s:preview(s:docker_cmd(["images"]))
+    let file_name = 'logs'
+    exec s:preview(s:docker_cmd(["images"]), file_name)
     exec s:setup_dimages()
 endfunction
 
@@ -415,7 +428,8 @@ function! s:DockerStatus(...) abort
         endif
     endif
 
-    exec s:preview(s:docker_cmd(cmd))
+    let file_name = 'status'
+    exec s:preview(s:docker_cmd(cmd), file_name)
     exec s:setup_dstatus()
 endfunction
 
