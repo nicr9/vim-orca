@@ -173,12 +173,8 @@ command! -nargs=1 Dpull call s:DockerPull(<f-args>)
 
 " Section: Dcreate
 
-function! s:DockerCreate(details) abort
-    let details = filter(a:details, "v:val != '<none>'")
-    let name = join(a:details[:-2], '_')
-    let image = a:details[-1]
-
-    if strlen(name) > 0
+function! s:DockerCreate(image, ...) abort
+    if a:0 > 0
         let cmd = ['create', '--name ' . name, image]
     else
         let cmd = ['create', image]
@@ -186,7 +182,7 @@ function! s:DockerCreate(details) abort
 
     exec s:run_cmd(s:docker_cmd(cmd))
 
-    if strlen(name) == 0
+    if a:0 != 1
         let raw = system(join(s:docker_cmd(['ps', '-l']), ' '))
         let name = split(raw)[-1]
     endif
@@ -194,7 +190,7 @@ function! s:DockerCreate(details) abort
     echom "Created container: " . name
 endfunction
 
-command! -nargs=1 Dcreate call s:DockerCreate([<f-args>])
+command! -nargs=* Dcreate call s:DockerCreate(<f-args>)
 
 " Section: Dcommit
 

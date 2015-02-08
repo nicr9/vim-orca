@@ -57,9 +57,9 @@ Section 2: Docker Commands                              *OrcaDocker*
                     See |g:orca_private_registery| to use private registeries.
 
                                                      *orca-:Dcreate*
-:Dcreate [details]  DEPRECATED. This function will be wildly different in
-                    future versions of orca.
-                    Create a container from an image.
+:Dcreate <image> [name]
+                    Create a container from an image. The name of the container
+                    will be displayed after it is created.
 
                                                      *orca-:Dcommit*
 :Dcommit [container] [image]
