@@ -249,7 +249,7 @@ command! -nargs=* Drun call s:DockerRun(<f-args>)
 " Section: Dhistory
 
 function! s:DockerHistory(image_tag) abort
-    let cmd = ['history', a:image_tag]
+    let cmd = ['history', '--no-trunc=true', a:image_tag]
     call s:run_cmd(s:docker_cmd(cmd))
 endfunction
 
