@@ -3,8 +3,11 @@
 ## Keymaps
 
 `d` - Run this image as a daemon (-d).
+`h` - Show the history of operations applied to this image.
+`i` - Inspect the image metadata.
 `r` - Refresh the :Dimages preview.
-`s` - Run this image, keep STDIN open and allocate a pseudo-TTY (-it).
+`s` - Drop into shell on this image (-it --entrypoint=/bin/bash).
+`t` - Run this image, keep STDIN open and allocate a pseudo-TTY (-it).
 
 `<backspace>` - Delete this image and any exited containers using it.
 `?` - Toggle the help dialog.
