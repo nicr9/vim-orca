@@ -121,9 +121,12 @@ Section 3: Fig Commands                                    *OrcaFig*
 Section 4: Other Commands                                *OrcaOther*
 
                                                      *orca-:Dstatus*
-:Dstatus [status]   List containers where status=[status] in preview window.
-                    [status], if provided, must match the following regex:
+:Dstatus [status]   List running containers in a preview window.
+                    This list can be filtered with [status] which must match:
                     "all|restarting|running|paused|exited".
+                    [status] can be of the form "key=value" (see docker docs
+                    for more info).
+                    Anytime [status] is used, the '-a' flag will be included.
                     Press `?` to see a list of available keymaps.
 
                                                       *orca-:Dwrite*
