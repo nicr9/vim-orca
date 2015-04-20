@@ -105,19 +105,31 @@ function! s:preview_refresh()
     endif
 endfunction
 
-function! s:line_columns(columns)
-    let matches = split(getline("."), s:multi_ws_re)
-    let results = []
-
-    for indx in a:columns
-        call add(results, matches[indx])
-    endfor
-
-    return results
+function! s:get_line_range(...)
+    if a:0 == 0
+        let from = line("'<")
+        let to = line("'>")
+    elseif a:0 == 2
+        let from = a:1
+        let to = a:2
+    else
+        return []
+    endif
+    let lines = range(from, to)
+    return map(lines, "getline(v:val)")
 endfunction
 
-function! s:line_col(column)
-    return s:line_columns([a:column])[0]
+function! s:multiline_col(lines, column)
+    return map(lines, "s:line_col(v:val, a:column)")
+endfunction
+
+function! s:line_col(line, column)
+    if type(a:line) == 1
+        let line = getline(a:line)
+    endif
+    let matches = split(line, s:multi_ws_re)
+
+    return matches[a:column]
 endfunction
 
 function! s:container_running(con_id)
@@ -357,13 +369,13 @@ function! s:setup_dimages()
     setlocal bufhidden=delete
     setlocal nowrap
     set filetype=dstatus
-    nmap <buffer> d :call <SID>DockerRun('-d', <SID>line_col(2))<CR>
-    nmap <buffer> h :call <SID>DockerHistory(<SID>line_col(2))<CR>
-    nmap <buffer> i :call <SID>DockerInspect(<SID>line_col(2))<CR>
+    nmap <buffer> d :call <SID>DockerRun('-d', <SID>line_col('.', 2))<CR>
+    nmap <buffer> h :call <SID>DockerHistory(<SID>line_col('.', 2))<CR>
+    nmap <buffer> i :call <SID>DockerInspect(<SID>line_col('.', 2))<CR>
     nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dimages()<CR>
-    nmap <buffer> s :call <SID>DockerRun('-it', '--entrypoint=/bin/bash', <SID>line_col(2))<CR>
-    nmap <buffer> t :call <SID>DockerRun('-it', <SID>line_col(2))<CR>
-    nmap <silent> <buffer> <backspace> :call <SID>DockerRmi(<SID>line_col(2))<CR>r
+    nmap <buffer> s :call <SID>DockerRun('-it', '--entrypoint=/bin/bash', <SID>line_col('.', 2))<CR>
+    nmap <buffer> t :call <SID>DockerRun('-it', <SID>line_col('.', 2))<CR>
+    nmap <silent> <buffer> <backspace> :call <SID>DockerRmi(<SID>line_col('.', 2))<CR>r
     nmap <buffer> <silent> ? :call <SID>help_dimages()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
 endfunction
@@ -406,15 +418,15 @@ function! s:setup_dstatus()
     setlocal bufhidden=delete
     setlocal nowrap
     set filetype=dstatus
-    nmap <buffer> c :call <SID>DockerCommit(<SID>line_col(0), <SID>line_col(-1))<CR>
-    nmap <buffer> i :call <SID>DockerInspect(<SID>line_col(0))<CR>
-    nmap <buffer> K :call <SID>DockerKill(<SID>line_col(0))<CR>r
-    nmap <buffer> l :call <SID>Docker("logs -f " . <SID>line_col(0))<CR>
-    nmap <buffer> L :call <SID>DockerLogs(<SID>line_col(0))<CR>
-    nmap <buffer> p :call <SID>DockerPatch(<SID>line_col(0))<CR>
+    nmap <buffer> c :call <SID>DockerCommit(<SID>line_col('.', 0), <SID>line_col('.', -1))<CR>
+    nmap <buffer> i :call <SID>DockerInspect(<SID>line_col('.', 0))<CR>
+    nmap <buffer> K :call <SID>DockerKill(<SID>line_col('.', 0))<CR>r
+    nmap <buffer> l :call <SID>Docker("logs -f " . <SID>line_col('.', 0))<CR>
+    nmap <buffer> L :call <SID>DockerLogs(<SID>line_col('.', 0))<CR>
+    nmap <buffer> p :call <SID>DockerPatch(<SID>line_col('.', 0))<CR>
     nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dstatus()<CR>
-    nmap <buffer> s :call <SID>DockerExec('-it', <SID>line_col(0), '/bin/bash')<CR>
-    nmap <silent> <buffer> <backspace> :call <SID>DockerRm(<SID>line_col(0))<CR>r
+    nmap <buffer> s :call <SID>DockerExec('-it', <SID>line_col('.', 0), '/bin/bash')<CR>
+    nmap <silent> <buffer> <backspace> :call <SID>DockerRm(<SID>line_col('.', 0))<CR>r
     nmap <buffer> <silent> ? :call <SID>help_dstatus()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
 endfunction
