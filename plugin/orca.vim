@@ -105,7 +105,7 @@ function! s:preview_refresh()
     endif
 endfunction
 
-function! s:get_line_range(...)
+function! s:line_range(...)
     if a:0 == 0
         let from = line("'<")
         let to = line("'>")
@@ -120,15 +120,20 @@ function! s:get_line_range(...)
 endfunction
 
 function! s:multiline_col(lines, column)
-    return map(lines, "s:line_col(v:val, a:column)")
+    return map(a:lines, "s:get_col(v:val, " . a:column . ")")
 endfunction
 
-function! s:line_col(line, column)
-    if type(a:line) == 1
-        let line = getline(a:line)
+function! s:line_col(line_no, column)
+    if type(a:line_no) == 1
+        let line = getline(a:line_no)
+    else
+        let line = a:line_no
     endif
-    let matches = split(line, s:multi_ws_re)
+    return s:get_col(line, a:column)
+endfunction
 
+function! s:get_col(text, column)
+    let matches = split(a:text, s:multi_ws_re)
     return matches[a:column]
 endfunction
 
@@ -236,8 +241,9 @@ command! -nargs=* Dcommit call s:DockerCommit(<f-args>)
 " Section: Dkill
 
 function! s:DockerKill(...) abort
-    let containers = a:0 == 0 ? [s:latest_container()] : a:000
-    for con_id in containers
+    let containers = a:0 == 0 ? [s:latest_container()] : a:1
+    let container_list = type(a:1) == 1 ? [containers] : containers
+    for con_id in container_list
         if s:container_running(con_id)
             call s:run_cmd(s:docker_cmd(["stop", con_id]))
         endif
@@ -421,6 +427,7 @@ function! s:setup_dstatus()
     nmap <buffer> c :call <SID>DockerCommit(<SID>line_col('.', 0), <SID>line_col('.', -1))<CR>
     nmap <buffer> i :call <SID>DockerInspect(<SID>line_col('.', 0))<CR>
     nmap <buffer> K :call <SID>DockerKill(<SID>line_col('.', 0))<CR>r
+    vmap <buffer> K <ESC>:call <SID>DockerKill(<SID>multiline_col(<SID>line_range(), 0))<CR>r
     nmap <buffer> l :call <SID>Docker("logs -f " . <SID>line_col('.', 0))<CR>
     nmap <buffer> L :call <SID>DockerLogs(<SID>line_col('.', 0))<CR>
     nmap <buffer> p :call <SID>DockerPatch(<SID>line_col('.', 0))<CR>
