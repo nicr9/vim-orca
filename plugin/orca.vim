@@ -257,8 +257,12 @@ command! -nargs=? Dkill call s:DockerKill(<f-args>)
 " Section: Drmi
 
 function! s:DockerRmi(img_name) abort
-    let cmd = s:docker_cmd(["rmi", '-f', a:img_name])
-    call s:run_cmd(cmd)
+    let img_list = type(a:img_name) == 3 ? a:img_name : [a:img_name]
+
+    for img_id in img_list
+        let cmd = s:docker_cmd(["rmi", '-f', img_list])
+        call s:run_cmd(cmd)
+    endfor
 endfunction
 
 command! -nargs=1 Drmi call s:DockerRmi(<f-args>)
@@ -387,6 +391,7 @@ function! s:setup_dimages()
     nmap <buffer> s :call <SID>DockerRun('-it', '--entrypoint=/bin/bash', <SID>line_col('.', 2))<CR>
     nmap <buffer> t :call <SID>DockerRun('-it', <SID>line_col('.', 2))<CR>
     nmap <silent> <buffer> <backspace> :call <SID>DockerRmi(<SID>line_col('.', 2))<CR>r
+    vmap <silent> <buffer> <backspace> :call <SID>DockerRmi(<SID>multiline_col(<SID>line_range(), 2))<CR>r
     nmap <buffer> <silent> ? :call <SID>help_dimages()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
 endfunction
