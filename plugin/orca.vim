@@ -243,6 +243,7 @@ command! -nargs=* Dcommit call s:DockerCommit(<f-args>)
 function! s:DockerKill(...) abort
     let containers = a:0 == 0 ? [s:latest_container()] : a:1
     let container_list = type(a:1) == 1 ? [containers] : containers
+
     for con_id in container_list
         if s:container_running(con_id)
             call s:run_cmd(s:docker_cmd(["stop", con_id]))
@@ -265,9 +266,13 @@ command! -nargs=1 Drmi call s:DockerRmi(<f-args>)
 " Section: Drm
 
 function! s:DockerRm(...) abort
-    let con_id = len(a:000) == 1 ? a:1 : s:latest_container()
-    let cmd = s:docker_cmd(["rm", '-f', con_id])
-    call s:run_cmd(cmd)
+    let containers = a:0 == 0 ? [s:latest_container()] : a:1
+    let container_list = type(a:1) == 1 ? [containers] : containers
+
+    for con_id in container_list
+        let cmd = s:docker_cmd(["rm", '-f', con_id])
+        call s:run_cmd(cmd)
+    endfor
 endfunction
 
 command! -nargs=? Drm call s:DockerRm(<f-args>)
@@ -434,6 +439,7 @@ function! s:setup_dstatus()
     nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dstatus()<CR>
     nmap <buffer> s :call <SID>DockerExec('-it', <SID>line_col('.', 0), '/bin/bash')<CR>
     nmap <silent> <buffer> <backspace> :call <SID>DockerRm(<SID>line_col('.', 0))<CR>r
+    vmap <silent> <buffer> <backspace> :call <SID>DockerRm(<SID>multiline_col(<SID>line_range(), 0))<CR>r
     nmap <buffer> <silent> ? :call <SID>help_dstatus()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
 endfunction
