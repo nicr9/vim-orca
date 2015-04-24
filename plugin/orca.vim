@@ -260,7 +260,7 @@ function! s:DockerRmi(img_name) abort
     let img_list = type(a:img_name) == 3 ? a:img_name : [a:img_name]
 
     for img_id in img_list
-        let cmd = s:docker_cmd(["rmi", '-f', img_list])
+        let cmd = s:docker_cmd(["rmi", '-f', img_id])
         call s:run_cmd(cmd)
     endfor
 endfunction
@@ -391,7 +391,7 @@ function! s:setup_dimages()
     nmap <buffer> s :call <SID>DockerRun('-it', '--entrypoint=/bin/bash', <SID>line_col('.', 2))<CR>
     nmap <buffer> t :call <SID>DockerRun('-it', <SID>line_col('.', 2))<CR>
     nmap <silent> <buffer> <backspace> :call <SID>DockerRmi(<SID>line_col('.', 2))<CR>r
-    vmap <silent> <buffer> <backspace> :call <SID>DockerRmi(<SID>multiline_col(<SID>line_range(), 2))<CR>r
+    vmap <silent> <buffer> <backspace> <ESC>:call <SID>DockerRmi(<SID>multiline_col(<SID>line_range(), 2))<CR>r
     nmap <buffer> <silent> ? :call <SID>help_dimages()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
 endfunction
@@ -444,7 +444,7 @@ function! s:setup_dstatus()
     nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dstatus()<CR>
     nmap <buffer> s :call <SID>DockerExec('-it', <SID>line_col('.', 0), '/bin/bash')<CR>
     nmap <silent> <buffer> <backspace> :call <SID>DockerRm(<SID>line_col('.', 0))<CR>r
-    vmap <silent> <buffer> <backspace> :call <SID>DockerRm(<SID>multiline_col(<SID>line_range(), 0))<CR>r
+    vmap <silent> <buffer> <backspace> <ESC>:call <SID>DockerRm(<SID>multiline_col(<SID>line_range(), 0))<CR>r
     nmap <buffer> <silent> ? :call <SID>help_dstatus()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
 endfunction
