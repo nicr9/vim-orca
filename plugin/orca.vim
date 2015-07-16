@@ -314,6 +314,7 @@ function! s:help_dinspect()
 endfunction
 
 function! s:setup_dinspect()
+    setlocal noswapfile
     setlocal buftype=nowrite nomodified readonly nomodifiable
     setlocal bufhidden=delete
     setlocal nowrap
@@ -347,6 +348,7 @@ function! s:help_dlogs()
 endfunction
 
 function! s:setup_dlogs()
+    setlocal noswapfile
     setlocal buftype=nowrite nomodified readonly nomodifiable
     setlocal bufhidden=delete
     setlocal nowrap
@@ -380,6 +382,7 @@ function! s:help_dimages()
 endfunction
 
 function! s:setup_dimages()
+    setlocal noswapfile
     setlocal buftype=nowrite nomodified readonly nomodifiable
     setlocal bufhidden=delete
     setlocal nowrap
@@ -430,6 +433,7 @@ function! s:help_dstatus()
 endfunction
 
 function! s:setup_dstatus()
+    setlocal noswapfile
     setlocal buftype=nowrite nomodified readonly nomodifiable
     setlocal bufhidden=delete
     setlocal nowrap
