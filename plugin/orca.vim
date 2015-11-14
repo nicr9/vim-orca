@@ -545,6 +545,15 @@ endfunction
 
 command! -nargs=? DCrm call s:DComposeRm(<f-args>)
 
+" Section: DCstop
+
+function! s:DComposeStop() abort
+    let cmd = a:0 == 1 ? ["stop", a:1] : ["stop"]
+    exec s:run_cmd(s:dcompose_cmd(cmd))
+endfunction
+
+command! -nargs=? DCstop call s:DComposeStop(<f-args>)
+
 " Section: DCup
 
 function! s:DComposeUp() abort
