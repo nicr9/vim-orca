@@ -146,6 +146,11 @@ Section 3: Docker Compose Commands                    *OrcaDCompose*
                     of specifying which specific [service]'s containers to
                     delete, otherwise it will delete all of them.
 
+                                                      *orca-:DCstop*
+:DCstop [service]   This just runs `docker-compose stop`. You have the option
+                    of specifying which specific [service]'s containers to
+                    stop, otherwise it will stop all of them.
+
                                                         *orca-:DCup*
 :DCup [service]     This just runs `docker-compose up -d`. You have the option
                     of specifying which specific [service] to boot, otherwise
