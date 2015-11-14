@@ -110,6 +110,11 @@ Section 3: Docker Compose Commands                    *OrcaDCompose*
                     of specifying which specific [service] to build, otherwise
                     it will build them all.
 
+                                                      *orca-:DCkill*
+:DCkill [service]   Equivilent of `docker-compose kill`. You have the option
+                    of specifying which specific [service] to kill, otherwise
+                    it will kill them all.
+
                                                        *orca-:DCup*
 :DCup               This just runs `docker-compose up -d`.
 

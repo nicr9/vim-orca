@@ -433,6 +433,15 @@ endfunction
 
 command! -nargs=? DCbuild call s:DComposeBuild(<f-args>)
 
+" Section: DCkill
+
+function! s:DComposeKill(...) abort
+    let cmd = a:0 == 1 ? ["kill", a:1] : ["kill"]
+    exec s:run_cmd(s:dcompose_cmd(cmd))
+endfunction
+
+command! -nargs=? DCkill call s:DComposeKill(<f-args>)
+
 " Section: DCup
 
 function! s:DComposeUp() abort
