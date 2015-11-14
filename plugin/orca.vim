@@ -509,6 +509,15 @@ endfunction
 
 command! -nargs=? DCrestart call s:DComposeRestart(<f-args>)
 
+" Section: DCstart
+
+function! s:DComposeStart(...) abort
+    let cmd = a:0 == 1 ? ["start", a:1] : ["start"]
+    exec s:run_cmd(s:dcompose_cmd(cmd))
+endfunction
+
+command! -nargs=? DCstart call s:DComposeStart(<f-args>)
+
 " Section: DCup
 
 function! s:DComposeUp() abort
