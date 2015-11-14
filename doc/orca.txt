@@ -116,7 +116,9 @@ Section 3: Docker Compose Commands                    *OrcaDCompose*
                     it will kill them all.
 
                                                        *orca-:DCup*
-:DCup               This just runs `docker-compose up -d`.
+:DCup [service]     This just runs `docker-compose up -d`. You have the option
+                    of specifying which specific [service] to boot, otherwise
+                    it will boot up all of them.
 
 ====================================================================
 Section 4: Other Commands                                *OrcaOther*

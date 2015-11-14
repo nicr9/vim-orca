@@ -445,7 +445,8 @@ command! -nargs=? DCkill call s:DComposeKill(<f-args>)
 " Section: DCup
 
 function! s:DComposeUp() abort
-    exec s:run_cmd(s:dcompose_cmd(["up", "-d"]))
+    let cmd = a:0 == 1 ? ["up", "-d", a:1] : ["up", "-d"]
+    exec s:run_cmd(s:dcompose_cmd(cmd))
 endfunction
 
-command! DCup call s:DComposeUp()
+command! -nargs=? DCup call s:DComposeUp(<f-args>)
