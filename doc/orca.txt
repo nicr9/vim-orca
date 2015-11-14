@@ -136,7 +136,17 @@ Section 3: Docker Compose Commands                    *OrcaDCompose*
                     of specifying which specific [service]'s logs to look at,
                     otherwise it will multiplex all of them.
 
-                                                       *orca-:DCup*
+                                                      *orca-:DCpull*
+:DCpull [service]   This just runs `docker-compose pull`. You have the option
+                    of specifying which specific [service]'s image to pull,
+                    otherwise it will pull all of them.
+
+                                                        *orca-:DCrm*
+:DCrm [service]     This just runs `docker-compose rm`. You have the option
+                    of specifying which specific [service]'s containers to
+                    delete, otherwise it will delete all of them.
+
+                                                        *orca-:DCup*
 :DCup [service]     This just runs `docker-compose up -d`. You have the option
                     of specifying which specific [service] to boot, otherwise
                     it will boot up all of them.
