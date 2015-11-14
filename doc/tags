@@ -4,10 +4,14 @@ OrcaConfiguration	orca.txt	/*OrcaConfiguration*
 OrcaContents	orca.txt	/*OrcaContents*
 OrcaContributing	orca.txt	/*OrcaContributing*
 OrcaCredits	orca.txt	/*OrcaCredits*
+OrcaDCompose	orca.txt	/*OrcaDCompose*
 OrcaDocker	orca.txt	/*OrcaDocker*
-OrcaFig	orca.txt	/*OrcaFig*
 OrcaOther	orca.txt	/*OrcaOther*
 OrcaUsage	orca.txt	/*OrcaUsage*
+orca-:DCbuild	orca.txt	/*orca-:DCbuild*
+orca-:DCkill	orca.txt	/*orca-:DCkill*
+orca-:DCompose	orca.txt	/*orca-:DCompose*
+orca-:DCup	orca.txt	/*orca-:DCup*
 orca-:Dbuild	orca.txt	/*orca-:Dbuild*
 orca-:Dcommit	orca.txt	/*orca-:Dcommit*
 orca-:Dcreate	orca.txt	/*orca-:Dcreate*
@@ -22,10 +26,6 @@ orca-:Dpull	orca.txt	/*orca-:Dpull*
 orca-:Drm	orca.txt	/*orca-:Drm*
 orca-:Drmi	orca.txt	/*orca-:Drmi*
 orca-:Drun	orca.txt	/*orca-:Drun*
-orca-:Dshell	orca.txt	/*orca-:Dshell*
 orca-:Dstatus	orca.txt	/*orca-:Dstatus*
 orca-:Dwrite	orca.txt	/*orca-:Dwrite*
-orca-:Fbuild	orca.txt	/*orca-:Fbuild*
-orca-:Fig	orca.txt	/*orca-:Fig*
-orca-:Fup	orca.txt	/*orca-:Fup*
 orca.text	orca.txt	/*orca.text*
