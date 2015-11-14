@@ -527,6 +527,24 @@ endfunction
 
 command! -nargs=? DClogs call s:DComposeLogs(<f-args>)
 
+" Section: DCpull
+
+function! s:DComposePull() abort
+    let cmd = a:0 == 1 ? ["pull", a:1] : ["pull"]
+    exec s:run_cmd(s:dcompose_cmd(cmd))
+endfunction
+
+command! -nargs=? DCpull call s:DComposePull(<f-args>)
+
+" Section: DCrm
+
+function! s:DComposeRm() abort
+    let cmd = a:0 == 1 ? ["rm", a:1] : ["rm"]
+    exec s:run_cmd(s:dcompose_cmd(cmd))
+endfunction
+
+command! -nargs=? DCrm call s:DComposeRm(<f-args>)
+
 " Section: DCup
 
 function! s:DComposeUp() abort
