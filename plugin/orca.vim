@@ -36,11 +36,11 @@ function! s:docker_cmd(args) abort
     return cmd
 endfunction
 
-function! s:fig_cmd(args) abort
+function! s:dcompose_cmd(args) abort
     if g:orca_sudo
-        let cmd = ["sudo", "fig"]
+        let cmd = ["sudo", "docker-compose"]
     else
-        let cmd = ["fig"]
+        let cmd = ["docker-compose"]
     endif
 
     if g:orca_verbose
@@ -416,27 +416,27 @@ endfunction
 
 command! -nargs=? Dstatus call s:DockerStatus(<f-args>)
 
-" Section: Fig
+" Section: DCompose
 
-function! s:Fig(...) abort
-    exec s:run_cmd(s:fig_cmd(a:000))
+function! s:DCompose(...) abort
+    exec s:run_cmd(s:dcompose_cmd(a:000))
 endfunction
 
-command! -nargs=+ Fig call s:Fig(<f-args>)
+command! -nargs=+ DCompose call s:DCompose(<f-args>)
 
-" Section: Fbuild
+" Section: DCbuild
 
-function! s:FigBuild(...) abort
+function! s:DComposeBuild(...) abort
     let cmd = a:0 == 1 ? ["build", a:1] : ["build"]
-    exec s:run_cmd(s:fig_cmd(cmd))
+    exec s:run_cmd(s:dcompose_cmd(cmd))
 endfunction
 
-command! -nargs=? Fbuild call s:FigBuild(<f-args>)
+command! -nargs=? DCbuild call s:DComposeBuild(<f-args>)
 
-" Section: Fup
+" Section: DCup
 
-function! s:FigUp() abort
-    exec s:run_cmd(s:fig_cmd(["up", "-d"]))
+function! s:DComposeUp() abort
+    exec s:run_cmd(s:dcompose_cmd(["up", "-d"]))
 endfunction
 
-command! Fup call s:FigUp()
+command! DCup call s:DComposeUp()

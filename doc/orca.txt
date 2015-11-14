@@ -16,14 +16,14 @@
 ====================================================================
 CONTENTS                                              *OrcaContents*
 
-    1. Usage ................ |OrcaUsage|
-    2. Docker Commands ...... |OrcaDocker|
-    3. Fig Commands ......... |OrcaFig|
-    4. Configuration ........ |OrcaConfiguration|
-    5. Bugs ................. |OrcaBugs|
-    6. Contributing ......... |OrcaContributing|
-    7. Changelog ............ |OrcaChangelog|
-    8. Credits .............. |OrcaCredits|
+    1. Usage ................. |OrcaUsage|
+    2. Docker Commands ....... |OrcaDocker|
+    3. Docker Compose Commands |OrcaDCompose|
+    4. Configuration ......... |OrcaConfiguration|
+    5. Bugs .................. |OrcaBugs|
+    6. Contributing .......... |OrcaContributing|
+    7. Changelog ............. |OrcaChangelog|
+    8. Credits ............... |OrcaCredits|
 
 ====================================================================
 Section 1: Introduction                                  *OrcaUsage*
@@ -99,17 +99,19 @@ Section 2: Docker Commands                              *OrcaDocker*
                     Press `?` to see a list of available keymaps.
 
 ====================================================================
-Section 3: Fig Commands                                    *OrcaFig*
+Section 3: Docker Compose Commands                    *OrcaDCompose*
 
-                                                         *orca-:Fig*
-:Fig [args]         Run arbitrary fig command. Similar to :!fig [args]
+                                                    *orca-:DCompose*
+:DCompose [args]    Run arbitrary docker-compose command. Similar to running:
+                    :!docker-compose [args]
 
-                                                      *orca-:Fbuild*
-:Fbuild [service]   This just runs `fig build`. You have the option of
-                    specifying the [service], otherwise it will build them all.
+                                                     *orca-:DCbuild*
+:DCbuild [service]  This just runs `docker-compose build`. You have the option
+                    of specifying which specific [service] to build, otherwise
+                    it will build them all.
 
-                                                      *orca-:Fup*
-:Fup                This just runs `fig up -d`.
+                                                       *orca-:DCup*
+:DCup               This just runs `docker-compose up -d`.
 
 ====================================================================
 Section 4: Other Commands                                *OrcaOther*
