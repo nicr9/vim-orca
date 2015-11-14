@@ -131,6 +131,11 @@ Section 3: Docker Compose Commands                    *OrcaDCompose*
                     of specifying which specific [service] to start, otherwise
                     it will start them all.
 
+                                                      *orca-:DClogs*
+:DClogs [service]   This just runs `docker-compose logs`. You have the option
+                    of specifying which specific [service]'s logs to look at,
+                    otherwise it will multiplex all of them.
+
                                                        *orca-:DCup*
 :DCup [service]     This just runs `docker-compose up -d`. You have the option
                     of specifying which specific [service] to boot, otherwise
