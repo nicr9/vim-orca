@@ -54,12 +54,12 @@ Section 2: Docker Commands                              *OrcaDocker*
 
                                                        *orca-:Dpull*
 :Dpull [image]      Pull [image] down from the registery.
-                    See |g:orca_default_repo| to use private registeries.
+                    See |g:orca_private_registery| to use private registeries.
 
                                                      *orca-:Dcreate*
-:Dcreate [details]  DEPRECATED. This function will be wildly different in
-                    future versions of orca.
-                    Create a container from an image.
+:Dcreate <image> [name]
+                    Create a container from an image. The name of the container
+                    will be displayed after it is created.
 
                                                      *orca-:Dcommit*
 :Dcommit [container] [image]
@@ -69,12 +69,16 @@ Section 2: Docker Commands                              *OrcaDocker*
 
                                                        *orca-:Dkill*
 :Dkill [container]  Forcibly stop container.
+                    If [container] is unspecified, the latest_container will
+                    be used by default.
 
                                                         *orca-:Drmi*
 :Drmi [image]       Delete image and any containers using it.
 
                                                          *orca-:Drm*
 :Drm [container]    Delete a container.
+                    If [container] is unspecified, the latest_container will
+                    be used by default.
 
                                                         *orca-:Drun*
 :Drun [args]        Run an arbitrary `docker run` command.
@@ -84,6 +88,8 @@ Section 2: Docker Commands                              *OrcaDocker*
 
                                                     *orca-:Dinspect*
 :Dinspect [object]  Low-level information on a container or image.
+                    If [container] is unspecified, the latest_container will
+                    be used by default.
                     Results will be displayed in a preview for convienient
                     searching.
 
@@ -123,13 +129,13 @@ Section 3: Docker Compose Commands                    *OrcaDCompose*
 ====================================================================
 Section 4: Other Commands                                *OrcaOther*
 
-                                                      *orca-:Dshell*
-:Dshell [image]     Drop into a shell on a container created from [image].
-
                                                      *orca-:Dstatus*
-:Dstatus [status]   List containers where status=[status] in preview window.
-                    [status], if provided, must match the following regex:
+:Dstatus [status]   List running containers in a preview window.
+                    This list can be filtered with [status] which must match:
                     "all|restarting|running|paused|exited".
+                    [status] can be of the form "key=value" (see docker docs
+                    for more info).
+                    Anytime [status] is used, the '-a' flag will be included.
                     Press `?` to see a list of available keymaps.
 
                                                       *orca-:Dwrite*
@@ -147,6 +153,7 @@ Section 5: Bugs                                           *OrcaBugs*
 * Preview windows can capture a 'Sorry, try again' message if you get the sudo
   password wrong.
 * `:Dlogs` can suck in other bash commands if the logs end with a `!`
+* `s:Dstatus` filtering doesn't work with "restarting|running|paused|exited"
 
 ====================================================================
 Section 6: Contributing                           *OrcaContributing*

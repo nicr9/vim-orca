@@ -12,8 +12,12 @@ if !exists("g:orca_sudo")
     let g:orca_sudo = 1
 endif
 
-if !exists("g:orca_default_repo")
-    let g:orca_default_repo = ""
+if !exists("g:orca_private_registery")
+    let g:orca_private_registery = ""
+endif
+
+if !exists("g:orca_preview_dir")
+    let g:orca_preview_dir = "/tmp/orca/"
 endif
 
 " Section: useful constants
@@ -67,9 +71,15 @@ function! s:debug_file(cmd) abort
     return full_name
 endfunction
 
-function! s:preview(cmd)
-    let g:orca_last_preview = a:cmd
-    let tmp = tempname()
+function! s:preview(cmd, file_name)
+    let g:orca_last_preview_cmd = a:cmd
+    let g:orca_last_preview_file = a:file_name
+    let tmp = g:orca_preview_dir . a:file_name
+
+    " Setup /tmp
+    if !isdirectory(g:orca_preview_dir)
+        exec mkdir(g:orca_preview_dir, 'p')
+    endif
 
     " Write info to file
     if g:orca_debug
@@ -88,26 +98,43 @@ function! s:preview(cmd)
 endfunction
 
 function! s:preview_refresh()
-    execute s:preview(g:orca_last_preview)
+    execute s:preview(g:orca_last_preview_cmd, g:orca_last_preview_file)
     if exists('g:orca_preview_cursor')
         call setpos(".", g:orca_preview_cursor)
         unlet g:orca_preview_cursor
     endif
 endfunction
 
-function! s:line_columns(columns)
-    let matches = split(getline("."), s:multi_ws_re)
-    let results = []
-
-    for indx in a:columns
-        call add(results, matches[indx])
-    endfor
-
-    return results
+function! s:line_range(...)
+    if a:0 == 0
+        let from = line("'<")
+        let to = line("'>")
+    elseif a:0 == 2
+        let from = a:1
+        let to = a:2
+    else
+        return []
+    endif
+    let lines = range(from, to)
+    return map(lines, "getline(v:val)")
 endfunction
 
-function! s:line_col(column)
-    return s:line_columns([a:column])[0]
+function! s:multiline_col(lines, column)
+    return map(a:lines, "s:get_col(v:val, " . a:column . ")")
+endfunction
+
+function! s:line_col(line_no, column)
+    if type(a:line_no) == 1
+        let line = getline(a:line_no)
+    else
+        let line = a:line_no
+    endif
+    return s:get_col(line, a:column)
+endfunction
+
+function! s:get_col(text, column)
+    let matches = split(a:text, s:multi_ws_re)
+    return matches[a:column]
 endfunction
 
 function! s:container_running(con_id)
@@ -163,8 +190,8 @@ command! -nargs=1 Dexec call s:DockerExec(<f-args>)
 
 function! s:DockerPull(image) abort
     let image = a:image
-    if strlen(g:orca_default_repo) != 0
-        let image = g:orca_default_repo . image
+    if strlen(g:orca_private_registery) != 0
+        let image = g:orca_private_registery . image
     endif
     call s:run_cmd(s:docker_cmd(["pull", image]))
 endfunction
@@ -173,21 +200,24 @@ command! -nargs=1 Dpull call s:DockerPull(<f-args>)
 
 " Section: Dcreate
 
-function! s:DockerCreate(details)
-    let details = filter(a:details, "v:val != '<none>'")
-    let name = join(a:details[:-2], '_')
-    let image = a:details[-1]
-
-    if strlen(name) > 0
+function! s:DockerCreate(image, ...) abort
+    if a:0 > 0
         let cmd = ['create', '--name ' . name, image]
     else
         let cmd = ['create', image]
     endif
 
-    call s:run_cmd(s:docker_cmd(cmd))
+    exec s:run_cmd(s:docker_cmd(cmd))
+
+    if a:0 != 1
+        let raw = system(join(s:docker_cmd(['ps', '-l']), ' '))
+        let name = split(raw)[-1]
+    endif
+
+    echom "Created container: " . name
 endfunction
 
-command! -nargs=1 Dcreate call s:DockerCreate([<f-args>])
+command! -nargs=* Dcreate call s:DockerCreate(<f-args>)
 
 " Section: Dcommit
 
@@ -210,32 +240,46 @@ command! -nargs=* Dcommit call s:DockerCommit(<f-args>)
 
 " Section: Dkill
 
-function! s:DockerKill(con_id) abort
-    if s:container_running(a:con_id)
-        call s:run_cmd(s:docker_cmd(["stop", a:con_id]))
-    endif
-    call s:run_cmd(s:docker_cmd(["kill", a:con_id]))
+function! s:DockerKill(...) abort
+    let containers = a:0 == 0 ? [s:latest_container()] : a:1
+    let container_list = type(a:1) == 1 ? [containers] : containers
+
+    for con_id in container_list
+        if s:container_running(con_id)
+            call s:run_cmd(s:docker_cmd(["stop", con_id]))
+        endif
+        call s:run_cmd(s:docker_cmd(["kill", con_id]))
+    endfor
 endfunction
 
-command! -nargs=1 Dkill call s:DockerKill(<f-args>)
+command! -nargs=? Dkill call s:DockerKill(<f-args>)
 
 " Section: Drmi
 
 function! s:DockerRmi(img_name) abort
-    let cmd = s:docker_cmd(["rmi", '-f', a:img_name])
-    call s:run_cmd(cmd)
+    let img_list = type(a:img_name) == 3 ? a:img_name : [a:img_name]
+
+    for img_id in img_list
+        let cmd = s:docker_cmd(["rmi", '-f', img_id])
+        call s:run_cmd(cmd)
+    endfor
 endfunction
 
 command! -nargs=1 Drmi call s:DockerRmi(<f-args>)
 
 " Section: Drm
 
-function! s:DockerRm(con_id) abort
-    let cmd = s:docker_cmd(["rm", '-f', a:con_id])
-    call s:run_cmd(cmd)
+function! s:DockerRm(...) abort
+    let containers = a:0 == 0 ? [s:latest_container()] : a:1
+    let container_list = type(a:1) == 1 ? [containers] : containers
+
+    for con_id in container_list
+        let cmd = s:docker_cmd(["rm", '-f', con_id])
+        call s:run_cmd(cmd)
+    endfor
 endfunction
 
-command! -nargs=1 Drm call s:DockerRm(<f-args>)
+command! -nargs=? Drm call s:DockerRm(<f-args>)
 
 " Section: Drun
 
@@ -249,7 +293,7 @@ command! -nargs=* Drun call s:DockerRun(<f-args>)
 " Section: Dhistory
 
 function! s:DockerHistory(image_tag) abort
-    let cmd = ['history', a:image_tag]
+    let cmd = ['history', '--no-trunc=true', a:image_tag]
     call s:run_cmd(s:docker_cmd(cmd))
 endfunction
 
@@ -270,6 +314,7 @@ function! s:help_dinspect()
 endfunction
 
 function! s:setup_dinspect()
+    setlocal noswapfile
     setlocal buftype=nowrite nomodified readonly nomodifiable
     setlocal bufhidden=delete
     setlocal nowrap
@@ -281,7 +326,8 @@ endfunction
 
 function! s:DockerInspect(...) abort
     let object = len(a:000) == 1 ? a:1 : s:latest_container()
-    exec s:preview(s:docker_cmd(["inspect", object]))
+    let file_name = 'inspect_' . object
+    exec s:preview(s:docker_cmd(["inspect", object]), file_name)
     exec s:setup_dinspect()
 endfunction
 
@@ -302,6 +348,7 @@ function! s:help_dlogs()
 endfunction
 
 function! s:setup_dlogs()
+    setlocal noswapfile
     setlocal buftype=nowrite nomodified readonly nomodifiable
     setlocal bufhidden=delete
     setlocal nowrap
@@ -313,7 +360,8 @@ endfunction
 
 function! s:DockerLogs(...) abort
     let con_id = len(a:000) == 1 ? a:1 : s:latest_container()
-    exec s:preview(s:docker_cmd(["logs", con_id]))
+    let file_name = 'logs_' . con_id
+    exec s:preview(s:docker_cmd(["logs", con_id]), file_name)
     exec s:setup_dlogs()
 endfunction
 
@@ -334,22 +382,26 @@ function! s:help_dimages()
 endfunction
 
 function! s:setup_dimages()
+    setlocal noswapfile
     setlocal buftype=nowrite nomodified readonly nomodifiable
     setlocal bufhidden=delete
     setlocal nowrap
     set filetype=dstatus
-    nmap <buffer> d :call <SID>DockerRun('-d', <SID>line_col(2))<CR>
-    nmap <buffer> h :call <SID>DockerHistory(<SID>line_col(2))<CR>
-    nmap <buffer> i :call <SID>DockerInspect(<SID>line_col(2))<CR>
+    nmap <buffer> d :call <SID>DockerRun('-d', <SID>line_col('.', 2))<CR>
+    nmap <buffer> h :call <SID>DockerHistory(<SID>line_col('.', 2))<CR>
+    nmap <buffer> i :call <SID>DockerInspect(<SID>line_col('.', 2))<CR>
     nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dimages()<CR>
-    nmap <buffer> s :call <SID>DockerRun('-it', <SID>line_col(2))<CR>
-    nmap <silent> <buffer> <backspace> :call <SID>DockerRmi(<SID>line_col(2))<CR>r
+    nmap <buffer> s :call <SID>DockerRun('-it', '--entrypoint=/bin/bash', <SID>line_col('.', 2))<CR>
+    nmap <buffer> t :call <SID>DockerRun('-it', <SID>line_col('.', 2))<CR>
+    nmap <silent> <buffer> <backspace> :call <SID>DockerRmi(<SID>line_col('.', 2))<CR>r
+    vmap <silent> <buffer> <backspace> <ESC>:call <SID>DockerRmi(<SID>multiline_col(<SID>line_range(), 2))<CR>r
     nmap <buffer> <silent> ? :call <SID>help_dimages()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
 endfunction
 
 function! s:DockerImages() abort
-    exec s:preview(s:docker_cmd(["images"]))
+    let file_name = 'logs'
+    exec s:preview(s:docker_cmd(["images"]), file_name)
     exec s:setup_dimages()
 endfunction
 
@@ -381,19 +433,22 @@ function! s:help_dstatus()
 endfunction
 
 function! s:setup_dstatus()
+    setlocal noswapfile
     setlocal buftype=nowrite nomodified readonly nomodifiable
     setlocal bufhidden=delete
     setlocal nowrap
     set filetype=dstatus
-    nmap <buffer> c :call <SID>DockerCommit(<SID>line_col(0), <SID>line_col(-1))<CR>
-    nmap <buffer> i :call <SID>DockerInspect(<SID>line_col(0))<CR>
-    nmap <buffer> K :call <SID>DockerKill(<SID>line_col(0))<CR>r
-    nmap <buffer> l :call <SID>Docker("logs -f " . <SID>line_col(0))<CR>
-    nmap <buffer> L :call <SID>DockerLogs(<SID>line_col(0))<CR>
-    nmap <buffer> p :call <SID>DockerPatch(<SID>line_col(0))<CR>
+    nmap <buffer> c :call <SID>DockerCommit(<SID>line_col('.', 0), <SID>line_col('.', -1))<CR>
+    nmap <buffer> i :call <SID>DockerInspect(<SID>line_col('.', 0))<CR>
+    nmap <buffer> K :call <SID>DockerKill(<SID>line_col('.', 0))<CR>r
+    vmap <buffer> K <ESC>:call <SID>DockerKill(<SID>multiline_col(<SID>line_range(), 0))<CR>r
+    nmap <buffer> l :call <SID>Docker("logs -f " . <SID>line_col('.', 0))<CR>
+    nmap <buffer> L :call <SID>DockerLogs(<SID>line_col('.', 0))<CR>
+    nmap <buffer> p :call <SID>DockerPatch(<SID>line_col('.', 0))<CR>
     nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dstatus()<CR>
-    nmap <buffer> s :call <SID>DockerExec('-it', <SID>line_col(0), '/bin/bash')<CR>
-    nmap <silent> <buffer> <backspace> :call <SID>DockerRm(<SID>line_col(0))<CR>r
+    nmap <buffer> s :call <SID>DockerExec('-it', <SID>line_col('.', 0), '/bin/bash')<CR>
+    nmap <silent> <buffer> <backspace> :call <SID>DockerRm(<SID>line_col('.', 0))<CR>r
+    vmap <silent> <buffer> <backspace> <ESC>:call <SID>DockerRm(<SID>multiline_col(<SID>line_range(), 0))<CR>r
     nmap <buffer> <silent> ? :call <SID>help_dstatus()<CR>
     nmap <buffer> <silent> q :pclose!<CR>
 endfunction
@@ -403,14 +458,17 @@ function! s:DockerStatus(...) abort
 
     " Optionally filter results
     if len(a:000) == 1
-        if index(["restarting", "running", "paused", "exited"], a:1) >= 0
-            let cmd = ["ps", " --filter=[status=" . a:1 . "]"]
-        elseif a:1 == 'all'
+        if a:1 == 'all'
             let cmd = ["ps", '-a']
+        elseif index(["restarting", "running", "paused", "exited"], a:1) >= 0
+            let cmd = ["ps", "-a", "-f", "status=" . a:1]
+        elseif a:1 =~ "="
+            let cmd = ["ps", "-a", "-f", a:1]
         endif
     endif
 
-    exec s:preview(s:docker_cmd(cmd))
+    let file_name = 'status'
+    exec s:preview(s:docker_cmd(cmd), file_name)
     exec s:setup_dstatus()
 endfunction
 
