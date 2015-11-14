@@ -126,6 +126,11 @@ Section 3: Docker Compose Commands                    *OrcaDCompose*
                     of specifying which specific [service] to restart, otherwise
                     it will restart them all.
 
+                                                     *orca-:DCstart*
+:DCstart [service]  Equivilent of `docker-compose start`. You have the option
+                    of specifying which specific [service] to start, otherwise
+                    it will start them all.
+
                                                        *orca-:DCup*
 :DCup [service]     This just runs `docker-compose up -d`. You have the option
                     of specifying which specific [service] to boot, otherwise
