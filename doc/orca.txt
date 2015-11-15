@@ -130,6 +130,10 @@ Section 3: Docker Compose Commands                    *OrcaDCompose*
                     of specifying which specific [service] to restart, otherwise
                     it will restart them all.
 
+                                                        *orca-:DCrun*
+:DCrun [service] [args] Start a [service] container, optionally pass [args] to
+                    it's entrypoint process.
+
                                                      *orca-:DCstart*
 :DCstart [service]  Equivilent of `docker-compose start`. You have the option
                     of specifying which specific [service] to start, otherwise

@@ -543,6 +543,15 @@ endfunction
 
 command! -nargs=? DCrestart call s:DComposeRestart(<f-args>)
 
+" Section: DCrun
+
+function! s:DComposeRun(...) abort
+    let cmd = extend(['run'], a:000)
+    call s:run_cmd(s:dcompose_cmd(cmd))
+endfunction
+
+command! -nargs=* DCrun call s:DComposeRun(<f-args>)
+
 " Section: DCstart
 
 function! s:DComposeStart(...) abort
