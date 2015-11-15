@@ -121,6 +121,10 @@ Section 3: Docker Compose Commands                    *OrcaDCompose*
                     of specifying which specific [service] to kill, otherwise
                     it will kill them all.
 
+                                                        *orca-:DCps*
+:DCps [status]      List running contains of active services in a
+                    preview window.
+
                                                    *orca-:DCrestart*
 :DCrestart [service] Equivilent of `docker-compose restart`. You have the option
                     of specifying which specific [service] to restart, otherwise
