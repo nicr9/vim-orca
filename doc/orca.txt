@@ -183,7 +183,32 @@ Section 4: Other Commands                                *OrcaOther*
 ====================================================================
 Section 4: Configuration                         *OrcaConfiguration*
 
-Coming soon!
+                                                 *orca-g:orca_debug*
+g:orca_debug	    Default: 0
+                    If set to 1, commands will not be sent to a docker-engine
+                    instance. Either the bash command will be echoed or the
+                    results in the preview window will be simulated.
+
+                                               *orca-g:orca_verbose*
+g:orca_debug	    Default: 0
+                    If set to 1, `--verbose` will be passed to the docker client
+                    for all commands executed.
+
+                                                  *orca-g:orca_sudo*
+g:orca_sudo 	    Default: 0
+                    If set to 1, docker commands will be executed with sudo.
+
+                                     *orca-g:orca_private_registery*
+g:orca_private_registery
+                    Default: ""
+                    If set, the value will be prepended to docker pull and push
+                    commands.
+
+                                           *orca-g:orca_preview_dir*
+g:orca_preview_dir  Default: "/tmp/orca/"
+                    All commands that list results in a preview window cache
+                    the contents of the window in files saved in this directory.
+                    This directory will be created if it doesn't exist.
 
 ====================================================================
 Section 5: Bugs                                           *OrcaBugs*

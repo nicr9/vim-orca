@@ -10,7 +10,15 @@ OrcaOther	orca.txt	/*OrcaOther*
 OrcaUsage	orca.txt	/*OrcaUsage*
 orca-:DCbuild	orca.txt	/*orca-:DCbuild*
 orca-:DCkill	orca.txt	/*orca-:DCkill*
+orca-:DClogs	orca.txt	/*orca-:DClogs*
 orca-:DCompose	orca.txt	/*orca-:DCompose*
+orca-:DCps	orca.txt	/*orca-:DCps*
+orca-:DCpull	orca.txt	/*orca-:DCpull*
+orca-:DCrestart	orca.txt	/*orca-:DCrestart*
+orca-:DCrm	orca.txt	/*orca-:DCrm*
+orca-:DCrun	orca.txt	/*orca-:DCrun*
+orca-:DCstart	orca.txt	/*orca-:DCstart*
+orca-:DCstop	orca.txt	/*orca-:DCstop*
 orca-:DCup	orca.txt	/*orca-:DCup*
 orca-:Dbuild	orca.txt	/*orca-:Dbuild*
 orca-:Dcommit	orca.txt	/*orca-:Dcommit*
@@ -28,4 +36,9 @@ orca-:Drmi	orca.txt	/*orca-:Drmi*
 orca-:Drun	orca.txt	/*orca-:Drun*
 orca-:Dstatus	orca.txt	/*orca-:Dstatus*
 orca-:Dwrite	orca.txt	/*orca-:Dwrite*
+orca-g:orca_debug	orca.txt	/*orca-g:orca_debug*
+orca-g:orca_preview_dir	orca.txt	/*orca-g:orca_preview_dir*
+orca-g:orca_private_registery	orca.txt	/*orca-g:orca_private_registery*
+orca-g:orca_sudo	orca.txt	/*orca-g:orca_sudo*
+orca-g:orca_verbose	orca.txt	/*orca-g:orca_verbose*
 orca.text	orca.txt	/*orca.text*
