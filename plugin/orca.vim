@@ -500,6 +500,40 @@ endfunction
 
 command! -nargs=? DCkill call s:DComposeKill(<f-args>)
 
+" Section: DCps
+
+function! s:help_dcps()
+    let g:orca_preview_cursor = getpos(".")
+    execute ":pclose!"
+    execute ":pedit! " . g:orca_path . "/res/dcps.help"
+    execute "normal \<C-W>p"
+    setlocal buftype=nowrite nomodified readonly nomodifiable
+    setlocal bufhidden=delete
+    setlocal filetype=md
+    nmap <buffer> <silent> ? :call <SID>preview_refresh()<CR>:call <SID>setup_dcps()<CR>
+    nmap <buffer> <silent> q :pclose!<CR>
+endfunction
+
+function! s:setup_dcps()
+    setlocal noswapfile
+    setlocal buftype=nowrite nomodified readonly nomodifiable
+    setlocal bufhidden=delete
+    setlocal nowrap
+    set filetype=dstatus
+    nmap <buffer> <silent> ? :call <SID>help_dcps()<CR>
+    nmap <buffer> <silent> q :pclose!<CR>
+endfunction
+
+function! s:DComposePs(...) abort
+    let cmd = a:0 == 1 ? ["ps", a:1] : ["ps"]
+
+    let file_name = 'compose-ps'
+    exec s:preview(s:docker_cmd(cmd), file_name)
+    exec s:setup_dcps()
+endfunction
+
+command! -nargs=? DCps call s:DComposePs(<f-args>)
+
 " Section: DCrestart
 
 function! s:DComposeRestart(...) abort
