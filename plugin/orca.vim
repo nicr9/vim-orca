@@ -1,7 +1,7 @@
 " Section: config
 
 if !exists("g:orca_debug")
-    let g:orca_debug = 1
+    let g:orca_debug = 0
 endif
 
 if !exists("g:orca_verbose")
@@ -9,7 +9,7 @@ if !exists("g:orca_verbose")
 endif
 
 if !exists("g:orca_sudo")
-    let g:orca_sudo = 1
+    let g:orca_sudo = 0
 endif
 
 if !exists("g:orca_private_registery")
