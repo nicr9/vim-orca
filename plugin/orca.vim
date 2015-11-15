@@ -528,7 +528,7 @@ function! s:DComposePs(...) abort
     let cmd = a:0 == 1 ? ["ps", a:1] : ["ps"]
 
     let file_name = 'compose-ps'
-    exec s:preview(s:docker_cmd(cmd), file_name)
+    exec s:preview(s:dcompose_cmd(cmd), file_name)
     exec s:setup_dcps()
 endfunction
 
