@@ -554,9 +554,36 @@ command! -nargs=? DCstart call s:DComposeStart(<f-args>)
 
 " Section: DClogs
 
+function! s:help_dclogs()
+    let g:orca_preview_cursor = getpos(".")
+    execute ":pclose!"
+    execute ":pedit! " . g:orca_path . "/res/dclogs.help"
+    execute "normal \<C-W>p"
+    setlocal buftype=nowrite nomodified readonly nomodifiable
+    setlocal bufhidden=delete
+    setlocal filetype=md
+    nmap <buffer> <silent> ? :call <SID>preview_refresh()<CR>:call <SID>setup_dclogs()<CR>
+    nmap <buffer> <silent> q :pclose!<CR>
+endfunction
+
+function! s:setup_dclogs()
+    setlocal noswapfile
+    setlocal buftype=nowrite nomodified readonly nomodifiable
+    setlocal bufhidden=delete
+    setlocal nowrap
+    set filetype=dstatus
+    nmap <buffer> <silent> r :call <SID>preview_refresh()<CR>:call <SID>setup_dclogs()<CR>
+    nmap <buffer> <silent> ? :call <SID>help_dclogs()<CR>
+    nmap <buffer> <silent> q :pclose!<CR>
+endfunction
+
 function! s:DComposeLogs() abort
+    let service = len(a:000) == 1 ? a:1 : "all"
+    let file_name = 'compose_logs_' . service
+
     let cmd = a:0 == 1 ? ["logs", a:1] : ["logs"]
-    exec s:run_cmd(s:dcompose_cmd(cmd))
+    exec s:preview(s:dcompose_cmd(cmd), file_name) # TODO: preview() can't catch output from `docker-compose logs ...`
+    exec s:setup_dlogs()
 endfunction
 
 command! -nargs=? DClogs call s:DComposeLogs(<f-args>)
