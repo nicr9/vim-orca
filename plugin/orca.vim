@@ -561,6 +561,15 @@ endfunction
 
 command! -nargs=? DCstart call s:DComposeStart(<f-args>)
 
+" Section: DCup
+
+function! s:DComposeUp() abort
+    let cmd = a:0 == 1 ? ["up", "-d", a:1] : ["up", "-d"]
+    exec s:run_cmd(s:dcompose_cmd(cmd))
+endfunction
+
+command! -nargs=? DCup call s:DComposeUp(<f-args>)
+
 " Section: DClogs
 
 function! s:DComposeLogs() abort
@@ -596,12 +605,3 @@ function! s:DComposeStop() abort
 endfunction
 
 command! -nargs=? DCstop call s:DComposeStop(<f-args>)
-
-" Section: DCup
-
-function! s:DComposeUp() abort
-    let cmd = a:0 == 1 ? ["up", "-d", a:1] : ["up", "-d"]
-    exec s:run_cmd(s:dcompose_cmd(cmd))
-endfunction
-
-command! -nargs=? DCup call s:DComposeUp(<f-args>)

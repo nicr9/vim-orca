@@ -110,59 +110,71 @@ Section 3: Docker Compose Commands                    *OrcaDCompose*
                                                     *orca-:DCompose*
 :DCompose [args]    Run arbitrary docker-compose command. Similar to running:
                     :!docker-compose [args]
+                    https://docs.docker.com/compose/
 
                                                      *orca-:DCbuild*
 :DCbuild [service]  This just runs `docker-compose build`. You have the option
                     of specifying which specific [service] to build, otherwise
                     it will build them all.
+                    https://docs.docker.com/compose/reference/build/
 
                                                       *orca-:DCkill*
 :DCkill [service]   Equivilent of `docker-compose kill`. You have the option
                     of specifying which specific [service] to kill, otherwise
                     it will kill them all.
+                    https://docs.docker.com/compose/reference/kill/
 
                                                         *orca-:DCps*
 :DCps [status]      List running contains of active services in a
                     preview window.
+                    https://docs.docker.com/compose/reference/ps/
 
                                                    *orca-:DCrestart*
 :DCrestart [service] Equivilent of `docker-compose restart`. You have the option
                     of specifying which specific [service] to restart, otherwise
                     it will restart them all.
+                    https://docs.docker.com/compose/reference/restart/
 
                                                         *orca-:DCrun*
 :DCrun [service] [args] Start a [service] container, optionally pass [args] to
                     it's entrypoint process.
+                    https://docs.docker.com/compose/reference/run/
 
                                                      *orca-:DCstart*
 :DCstart [service]  Equivilent of `docker-compose start`. You have the option
                     of specifying which specific [service] to start, otherwise
                     it will start them all.
-
-                                                      *orca-:DClogs*
-:DClogs [service]   This just runs `docker-compose logs`. You have the option
-                    of specifying which specific [service]'s logs to look at,
-                    otherwise it will multiplex all of them.
-
-                                                      *orca-:DCpull*
-:DCpull [service]   This just runs `docker-compose pull`. You have the option
-                    of specifying which specific [service]'s image to pull,
-                    otherwise it will pull all of them.
-
-                                                        *orca-:DCrm*
-:DCrm [service]     This just runs `docker-compose rm`. You have the option
-                    of specifying which specific [service]'s containers to
-                    delete, otherwise it will delete all of them.
-
-                                                      *orca-:DCstop*
-:DCstop [service]   This just runs `docker-compose stop`. You have the option
-                    of specifying which specific [service]'s containers to
-                    stop, otherwise it will stop all of them.
+                    https://docs.docker.com/compose/reference/start/
 
                                                         *orca-:DCup*
 :DCup [service]     This just runs `docker-compose up -d`. You have the option
                     of specifying which specific [service] to boot, otherwise
                     it will boot up all of them.
+                    https://docs.docker.com/compose/reference/up/
+
+                                                      *orca-:DClogs*
+:DClogs [service]   This just runs `docker-compose logs`. You have the option
+                    of specifying which specific [service]'s logs to look at,
+                    otherwise it will multiplex all of them.
+                    https://docs.docker.com/compose/reference/logs/
+
+                                                      *orca-:DCpull*
+:DCpull [service]   This just runs `docker-compose pull`. You have the option
+                    of specifying which specific [service]'s image to pull,
+                    otherwise it will pull all of them.
+                    https://docs.docker.com/compose/reference/pull/
+
+                                                        *orca-:DCrm*
+:DCrm [service]     This just runs `docker-compose rm`. You have the option
+                    of specifying which specific [service]'s containers to
+                    delete, otherwise it will delete all of them.
+                    https://docs.docker.com/compose/reference/rm/
+
+                                                      *orca-:DCstop*
+:DCstop [service]   This just runs `docker-compose stop`. You have the option
+                    of specifying which specific [service]'s containers to
+                    stop, otherwise it will stop all of them.
+                    https://docs.docker.com/compose/reference/stop/
 
 ====================================================================
 Section 4: Other Commands                                *OrcaOther*
