@@ -254,6 +254,13 @@ I look forward to hearing from you!
 ====================================================================
 Section 7: Changelog                                 *OrcaChangelog*
 
+v0.5
+----
+* Greatly expanded scope of docker-compose support.
+* Changed the default values of g:orca_debug and g:orca_verbose to false.
+* Docs for orca config variables.
+* Added this changelog to the docs page.
+
 v0.4
 ----
 
