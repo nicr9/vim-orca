@@ -43,48 +43,59 @@ Section 2: Docker Commands                              *OrcaDocker*
 
                                                       *orca-:Docker*
 :Docker [args]      Run arbitrary docker command. Similar to :!docker [args]
+                    https://docs.docker.com/v1.8/reference/commandline/cli/
 
                                                       *orca-:Dbuild*
 :Dbuild <image> [context]
                     Build an image using the Dockerfile in the current dir.
                     The resulting image will be called [image].
+                    https://docs.docker.com/v1.8/reference/commandline/build/
 
                                                        *orca-:Dexec*
 :Dexec [args]       For arbitrary `docker exec` commands.
+                    https://docs.docker.com/v1.8/reference/commandline/exec/
 
                                                        *orca-:Dpull*
 :Dpull [image]      Pull [image] down from the registery.
                     See |g:orca_private_registery| to use private registeries.
+                    https://docs.docker.com/v1.8/reference/commandline/pull/
 
                                                      *orca-:Dcreate*
 :Dcreate <image> [name]
                     Create a container from an image. The name of the container
                     will be displayed after it is created.
+                    https://docs.docker.com/v1.8/reference/commandline/create/
 
                                                      *orca-:Dcommit*
 :Dcommit [container] [image]
                     Commit the contents of container to a new image.
                     If [container] is unspecified, the latest_container will
                     be used by default.
+                    https://docs.docker.com/v1.8/reference/commandline/commit/
 
                                                        *orca-:Dkill*
 :Dkill [container]  Forcibly stop container.
                     If [container] is unspecified, the latest_container will
                     be used by default.
+                    https://docs.docker.com/v1.8/reference/commandline/kill/
 
                                                         *orca-:Drmi*
 :Drmi [image]       Delete image and any containers using it.
+                    https://docs.docker.com/v1.8/reference/commandline/rmi/
 
                                                          *orca-:Drm*
 :Drm [container]    Delete a container.
                     If [container] is unspecified, the latest_container will
                     be used by default.
+                    https://docs.docker.com/v1.8/reference/commandline/rm/
 
                                                         *orca-:Drun*
 :Drun [args]        Run an arbitrary `docker run` command.
+                    https://docs.docker.com/v1.8/reference/commandline/run/
 
                                                     *orca-:Dhistory*
 :Dhistory [image]   See how [image] was built.
+                    https://docs.docker.com/v1.8/reference/commandline/history/
 
                                                     *orca-:Dinspect*
 :Dinspect [object]  Low-level information on a container or image.
@@ -92,6 +103,7 @@ Section 2: Docker Commands                              *OrcaDocker*
                     be used by default.
                     Results will be displayed in a preview for convienient
                     searching.
+                    https://docs.docker.com/v1.8/reference/commandline/inspect/
 
                                                        *orca-:Dlogs*
 :Dlogs [container]  Retrieve the logs from a specific [container].
@@ -99,10 +111,12 @@ Section 2: Docker Commands                              *OrcaDocker*
                     be used by default.
                     Results will be displayed in a preview for convienient
                     searching.
+                    https://docs.docker.com/v1.8/reference/commandline/logs/
 
                                                      *orca-:Dimages*
 :Dimages            List images that are available locally in preview window.
                     Press `?` to see a list of available keymaps.
+                    https://docs.docker.com/v1.8/reference/commandline/images/
 
 ====================================================================
 Section 3: Docker Compose Commands                    *OrcaDCompose*
