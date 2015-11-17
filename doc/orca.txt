@@ -254,7 +254,16 @@ I look forward to hearing from you!
 ====================================================================
 Section 7: Changelog                                 *OrcaChangelog*
 
-Coming soon!
+v0.4
+----
+
+* `g:orca_default_repo` renamed to `g:orca_private_registery`
+* `:Dhistory` now uses `--no-trunc=true` by default.
+* Commands that expect a container id now default to the last run container.
+* `:Dimages` preview keymap changes.
+* `:Dkill`, `:Drm` and `:Drmi` all now accept lists of container ids.
+* Vim swap files are disabled for previews now.
+* Refactored fig related code to reflect fig's change to docker-compose.
 
 ====================================================================
 Section 8: Credits                                     *OrcaCredits*
