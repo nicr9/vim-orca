@@ -272,6 +272,21 @@ v0.4
 * Vim swap files are disabled for previews now.
 * Refactored fig related code to reflect fig's change to docker-compose.
 
+v0.3
+----
+
+* Added a few docker commands:
+ - :Dlogs
+ - :Dinspect
+* Updates to other docker commands
+ - :Dshell is gone; now have :Dexec and :Drun instead
+ - :Dbuild optionally takes path to context
+ - :Dstatus got loads of keymaps
+ - :Dimages got loads of keymaps
+ - :Dhistory got loads of keymaps
+ - :Fbuild now optionally takes a service name as param
+* Also some docs updates
+
 ====================================================================
 Section 8: Credits                                     *OrcaCredits*
 
