@@ -258,30 +258,25 @@ command! -nargs=? Dkill call s:DockerKill(<f-args>)
 
 " Section: Drmi
 
-function! s:DockerRmi(img_name) abort
-    let img_list = type(a:img_name) == 3 ? a:img_name : [a:img_name]
-
-    for img_id in img_list
-        let cmd = s:docker_cmd(["rmi", '-f', img_id])
-        call s:run_cmd(cmd)
-    endfor
+function! s:DockerRmi(...) abort
+    let cmd = extend(["rmi", "-f"], a:000])
+    let full_cmd = s:docker_cmd(cmd)
+    call s:run_cmd(full_cmd)
 endfunction
 
-command! -nargs=1 Drmi call s:DockerRmi(<f-args>)
+command! -nargs=* Drmi call s:DockerRmi(<f-args>)
 
 " Section: Drm
 
 function! s:DockerRm(...) abort
-    let containers = a:0 == 0 ? [s:latest_container()] : a:1
-    let container_list = type(a:1) == 1 ? [containers] : containers
+    let containers = a:0 == 0 ? [s:latest_container()] : a:000
 
-    for con_id in container_list
-        let cmd = s:docker_cmd(["rm", '-f', con_id])
-        call s:run_cmd(cmd)
-    endfor
+    let cmd = extend(["rm", "-f"], containers)
+    let full_cmd = s:docker_cmd(cmd)
+    call s:run_cmd(full_cmd)
 endfunction
 
-command! -nargs=? Drm call s:DockerRm(<f-args>)
+command! -nargs=* Drm call s:DockerRm(<f-args>)
 
 " Section: Drun
 

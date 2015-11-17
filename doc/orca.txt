@@ -274,6 +274,7 @@ v0.5
 * Changed the default values of g:orca_debug and g:orca_verbose to false.
 * Docs for orca config variables.
 * Added official docs urls in orca docs for each command.
+* :Drm and :Drmi now execute a single docker command to delete multiple items.
 * Added this changelog to the docs page.
 
 v0.4
