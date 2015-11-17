@@ -273,6 +273,7 @@ v0.5
 * Greatly expanded scope of docker-compose support.
 * Changed the default values of g:orca_debug and g:orca_verbose to false.
 * Docs for orca config variables.
+* Added official docs urls in orca docs for each command.
 * Added this changelog to the docs page.
 
 v0.4
