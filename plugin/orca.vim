@@ -25,7 +25,9 @@ endif
 let g:orca_version = "v0.4"
 let g:orca_path = expand('<sfile>:p:h:h')
 
+" Regex's for string parsing
 let s:multi_ws_re = '\s\s\+'
+let s:scale_arg_re = '='
 
 " Section: utils
 
@@ -596,6 +598,24 @@ function! s:DComposeRm() abort
 endfunction
 
 command! -nargs=? DCrm call s:DComposeRm(<f-args>)
+
+" Section: DCscale
+
+function! s:DComposeScale(...) abort
+    let validated_cmd = ["scale"];
+    for rule in a:000
+        let matches = split(rule, s:scale_arg_re)
+        if len(matches) == 2
+            add(validated_cmd, rule)
+        else
+            echo "Skipping: '" . rule . "'"
+        endif
+    endfor
+
+    exec s:run_cmd(s:dcompose_cmd(validated_cmd))
+endfunction
+
+command! -nargs=* DCscale call s:DComposeScale(<f-args>)
 
 " Section: DCstop
 

@@ -170,6 +170,14 @@ Section 3: Docker Compose Commands                    *OrcaDCompose*
                     delete, otherwise it will delete all of them.
                     https://docs.docker.com/compose/reference/rm/
 
+                                                      *orca-:DCscale*
+:DCscale [service=num ...]
+                    For setting the number of containers to run for a service.
+                    Each argument should be the name of the service and the
+                    number of containers required, separated by an `=`.
+                    Any args not matching this pattern will be skipped.
+                    https://docs.docker.com/compose/reference/scale/
+
                                                       *orca-:DCstop*
 :DCstop [service]   This just runs `docker-compose stop`. You have the option
                     of specifying which specific [service]'s containers to
