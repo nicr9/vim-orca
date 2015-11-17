@@ -276,16 +276,31 @@ v0.3
 ----
 
 * Added a few docker commands:
- - :Dlogs
- - :Dinspect
-* Updates to other docker commands
- - :Dshell is gone; now have :Dexec and :Drun instead
- - :Dbuild optionally takes path to context
- - :Dstatus got loads of keymaps
- - :Dimages got loads of keymaps
- - :Dhistory got loads of keymaps
- - :Fbuild now optionally takes a service name as param
-* Also some docs updates
+ - :Dlogs.
+ - :Dinspect.
+* Updates to other docker commands:
+ - :Dshell is gone; now have :Dexec and :Drun instead.
+ - :Dbuild optionally takes path to context.
+ - :Dstatus got loads of keymaps.
+ - :Dimages got loads of keymaps.
+ - :Dhistory got loads of keymaps.
+ - :Fbuild now optionally takes a service name as param.
+* Also some docs updates.
+
+v0.2
+----
+
+* Lots of new commands:
+ - :Dpatch
+ - :Drun
+ - :Drm
+ - :Drmi
+ - :Dcommit
+* Help preview buffers.
+ - Cleaned up when closed.
+* :Dstatus filtering.
+* Added `s:line_col()` for parsing docker commands with tabulated output.
+* Started docs page.
 
 ====================================================================
 Section 8: Credits                                     *OrcaCredits*
