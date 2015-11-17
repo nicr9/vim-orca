@@ -302,6 +302,20 @@ v0.2
 * Added `s:line_col()` for parsing docker commands with tabulated output.
 * Started docs page.
 
+v0.1
+----
+
+* First release of vim-orca
+* Docker commands:
+ - :Dimages
+ - :Dpull
+ - :Dwrite
+* Fig commands:
+ - :Fig
+ - :Fup
+ - :Fbuild
+* Results for :Dimages and :Dstatus in preview windows
+
 ====================================================================
 Section 8: Credits                                     *OrcaCredits*
 
