@@ -16,7 +16,7 @@
 ====================================================================
 CONTENTS                                              *OrcaContents*
 
-    1. Usage ................. |OrcaUsage|
+    1. Introduction .......... |OrcaUsage|
     2. Docker Commands ....... |OrcaDocker|
     3. Docker Compose Commands |OrcaDCompose|
     4. Configuration ......... |OrcaConfiguration|
@@ -127,36 +127,37 @@ Section 3: Docker Compose Commands                    *OrcaDCompose*
                     https://docs.docker.com/compose/
 
                                                      *orca-:DCbuild*
-:DCbuild [service]  This just runs `docker-compose build`. You have the option
-                    of specifying which specific [service] to build, otherwise
+:DCbuild [service]  Build services described in your docker-compose.yml. You
+                    can specify which specific [service] to build, otherwise
                     it will build them all.
                     https://docs.docker.com/compose/reference/build/
 
                                                       *orca-:DCkill*
-:DCkill [service]   Equivilent of `docker-compose kill`. You have the option
-                    of specifying which specific [service] to kill, otherwise
+:DCkill [service]   Kill services described in your docker-compose.yml. You
+                    can specify which specific [service] to kill, otherwise
                     it will kill them all.
                     https://docs.docker.com/compose/reference/kill/
 
                                                         *orca-:DCps*
-:DCps [status]      List running contains of active services in a
-                    preview window.
+:DCps [status]      Displat list of active services in a preview window.
                     https://docs.docker.com/compose/reference/ps/
 
                                                    *orca-:DCrestart*
-:DCrestart [service] Equivilent of `docker-compose restart`. You have the option
+:DCrestart [service]
+                    Equivilent of `docker-compose restart`. You have the option
                     of specifying which specific [service] to restart, otherwise
                     it will restart them all.
                     https://docs.docker.com/compose/reference/restart/
 
                                                         *orca-:DCrun*
-:DCrun [service] [args] Start a [service] container, optionally pass [args] to
+:DCrun [service] [args]
+                    Start a [service] container, optionally pass [args] to
                     it's entrypoint process.
                     https://docs.docker.com/compose/reference/run/
 
                                                      *orca-:DCstart*
-:DCstart [service]  Equivilent of `docker-compose start`. You have the option
-                    of specifying which specific [service] to start, otherwise
+:DCstart [service]  Start services described in your docker-compose.yml You
+                    can specify which specific [service] to start, otherwise
                     it will start them all.
                     https://docs.docker.com/compose/reference/start/
 
