@@ -601,7 +601,7 @@ function! s:DComposeScale(...) abort
     for rule in a:000
         let matches = split(rule, s:scale_arg_re)
         if len(matches) == 2
-            add(validated_cmd, rule)
+            validated_cmd = add(validated_cmd, rule)
         else
             echo "Skipping: '" . rule . "'"
         endif
