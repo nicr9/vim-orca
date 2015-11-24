@@ -597,7 +597,7 @@ command! -nargs=? DCrm call s:DComposeRm(<f-args>)
 " Section: DCscale
 
 function! s:DComposeScale(...) abort
-    let validated_cmd = ["scale"];
+    let validated_cmd = ["scale"]
     for rule in a:000
         let matches = split(rule, s:scale_arg_re)
         if len(matches) == 2
